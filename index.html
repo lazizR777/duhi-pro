@@ -1,0 +1,1681 @@
+﻿<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Atlas Parfyum — Maison de Parfum</title>
+<meta name="description" content="Atlas Parfyum: 3D flakonlar, orbital xushbo'y tuman, oltin puls, nota filtri, sevimlilar va onlayn buyurtma.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400..700;1,400..600&family=Jost:wght@300;400;500;600&display=swap">
+<style>
+@property --tint{syntax:"<color>";inherits:true;initial-value:#2d4a6e}
+:root{
+  --bg:#f4ede2;
+  --ink:#211119;
+  --muted:#69545e;
+  --card:rgba(33,17,25,.045);
+  --card-hi:rgba(255,255,255,.72);
+  --line:rgba(33,17,25,.14);
+  --gold:#b57e22;
+  --gold-hi:#ebbc5c;
+  --tint:#2d4a6e;
+  --shadow:0 24px 60px -24px rgba(33,17,25,.24);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px)
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#100914;
+    --ink:#f8efe2;
+    --muted:#c4b0bc;
+    --card:rgba(255,255,255,.05);
+    --card-hi:rgba(255,255,255,.12);
+    --line:rgba(248,239,226,.14);
+    --gold:#dca642;
+    --gold-hi:#ffd882;
+    --shadow:0 28px 70px -24px rgba(0,0,0,.68)
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#100914;
+  --ink:#f8efe2;
+  --muted:#c4b0bc;
+  --card:rgba(255,255,255,.05);
+  --card-hi:rgba(255,255,255,.12);
+  --line:rgba(248,239,226,.14);
+  --gold:#dca642;
+  --gold-hi:#ffd882;
+  --shadow:0 28px 70px -24px rgba(0,0,0,.68)
+}
+html{scroll-padding-top:calc(76px + env(safe-area-inset-top,0px));transition:--tint 1.4s cubic-bezier(.22,1,.36,1);scroll-behavior:smooth}
+*{box-sizing:border-box;margin:0}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font:300 16px/1.65 Jost,system-ui,-apple-system,sans-serif;
+  overflow-x:hidden;
+  transition:background .8s cubic-bezier(.22,1,.36,1),color .8s cubic-bezier(.22,1,.36,1);
+  animation:pageEnter 1.1s cubic-bezier(.22,1,.36,1) both
+}
+@keyframes pageEnter{from{opacity:0}to{opacity:1}}
+
+.lang-breath{
+  position:fixed;inset:0;z-index:55;pointer-events:none;opacity:0;
+  background:radial-gradient(circle at 50% 35%,color-mix(in srgb,var(--gold-hi) 18%,transparent),transparent 70%);
+  transition:opacity .45s cubic-bezier(.22,1,.36,1)
+}
+.lang-breath.on{opacity:1}
+
+#fx{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;will-change:transform}
+#trailCanvas{position:fixed;inset:0;width:100%;height:100%;z-index:45;pointer-events:none}
+.amb{
+  position:fixed;inset:-18%;z-index:0;pointer-events:none;will-change:transform;
+  background:
+    radial-gradient(54% 64% at 72% 45%,color-mix(in srgb,var(--tint) 42%,transparent),transparent 72%),
+    radial-gradient(46% 52% at 14% 88%,color-mix(in srgb,var(--tint) 26%,transparent),transparent 70%),
+    radial-gradient(40% 44% at 88% 15%,color-mix(in srgb,var(--gold) 16%,transparent),transparent 70%);
+  filter:blur(32px);
+  animation:ambDrift 18s ease-in-out infinite alternate;
+  transition:background 1.2s ease
+}
+@keyframes ambDrift{
+  0%{transform:translate3d(-1.5%,-1%,0) scale(1)}
+  50%{transform:translate3d(1.5%,1.2%,0) scale(1.04)}
+  100%{transform:translate3d(-0.8%,1.8%,0) scale(1.01)}
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:50;pointer-events:none;opacity:.055;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")
+}
+#sp{
+  position:fixed;top:0;left:0;right:0;height:2.5px;
+  background:linear-gradient(90deg,var(--gold),var(--gold-hi),var(--tint));
+  transform-origin:0 50%;transform:scaleX(0);z-index:60;box-shadow:0 0 12px var(--gold)
+}
+
+.fly-orb{
+  position:fixed;z-index:95;pointer-events:none;
+  width:18px;height:18px;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,#fff6d6,var(--gold-hi) 48%,var(--tint));
+  box-shadow:0 0 22px var(--gold-hi),0 0 40px var(--tint);
+  transform:translate(-50%,-50%);
+  transition:left .72s cubic-bezier(.22,1,.36,1),top .72s cubic-bezier(.22,1,.36,1),transform .72s cubic-bezier(.22,1,.36,1),opacity .72s ease
+}
+
+.serif{font-family:'Bodoni Moda',Georgia,serif;font-weight:500}
+
+/* Header */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:25;
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:calc(14px + env(safe-area-inset-top,0px)) 4vw 14px;
+  backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  background:linear-gradient(to bottom,color-mix(in srgb,var(--bg) 84%,transparent),color-mix(in srgb,var(--bg) 25%,transparent));
+  border-bottom:1px solid color-mix(in srgb,var(--line) 55%,transparent);
+  animation:hdrSlide .9s cubic-bezier(.22,1,.36,1) both
+}
+@keyframes hdrSlide{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:none}}
+.logo{
+  font:italic 600 28px/1 'Bodoni Moda',Georgia,serif;letter-spacing:.02em;
+  background:linear-gradient(120deg,var(--ink),var(--gold-hi) 55%,var(--gold));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent
+}
+.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+/* Tugmalar & Folga yaltirashi */
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;-webkit-tap-highlight-color:transparent}
+.foil-shine{position:relative;overflow:hidden}
+.foil-shine::before{
+  content:"";position:absolute;top:-30%;left:-115%;width:55%;height:160%;
+  background:linear-gradient(105deg,transparent,rgba(255,228,150,.38),rgba(255,255,255,.55),transparent);
+  transform:skewX(-22deg);
+  transition:left .68s cubic-bezier(.22,1,.36,1);
+  pointer-events:none;z-index:3
+}
+.foil-shine:hover::before{left:145%}
+
+.pill{
+  background:var(--card);
+  border:1px solid var(--line);
+  padding:8px 16px;min-height:40px;
+  border-radius:999px;
+  font-size:13.5px;font-weight:400;letter-spacing:.03em;
+  backdrop-filter:blur(10px);
+  transition:transform .28s cubic-bezier(.22,1,.36,1),background .3s,color .3s,border-color .3s,box-shadow .35s
+}
+.pill:hover{
+  transform:translateY(-2px);
+  border-color:color-mix(in srgb,var(--gold) 65%,var(--line));
+  box-shadow:0 8px 22px -10px color-mix(in srgb,var(--gold) 55%,transparent)
+}
+.pill:active{transform:translateY(0) scale(.96)}
+.pill.on{
+  background:linear-gradient(135deg,var(--ink),color-mix(in srgb,var(--ink) 75%,var(--tint)));
+  color:var(--bg);
+  border-color:var(--ink);
+  font-weight:500;
+  box-shadow:0 8px 24px -8px color-mix(in srgb,var(--tint) 60%,rgba(0,0,0,.35))
+}
+.cartb{
+  border-color:color-mix(in srgb,var(--gold) 75%,transparent);
+  background:linear-gradient(135deg,color-mix(in srgb,var(--gold) 18%,var(--card)),var(--card));
+  font-weight:500
+}
+.cartb:hover{
+  background:linear-gradient(135deg,var(--gold),var(--gold-hi));
+  color:#190e18;border-color:var(--gold)
+}
+.bump{animation:bump .55s cubic-bezier(.22,1,.36,1)}
+@keyframes bump{35%{transform:scale(1.18)}70%{transform:scale(.95)}100%{transform:scale(1)}}
+
+.mag-btn{will-change:transform;transition:transform .24s cubic-bezier(.22,1,.36,1),box-shadow .35s,filter .3s}
+.buy{
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,var(--gold-hi) 0%,var(--gold) 55%,color-mix(in srgb,var(--gold) 78%,#3b1808) 100%);
+  color:#190d16;
+  padding:14px 30px;min-height:48px;
+  border-radius:999px;
+  font-weight:600;font-size:14px;letter-spacing:.05em;text-transform:uppercase;
+  box-shadow:0 14px 32px -10px color-mix(in srgb,var(--gold) 70%,transparent),inset 0 1px 0 rgba(255,255,255,.45)
+}
+.buy:hover{
+  box-shadow:0 20px 40px -10px color-mix(in srgb,var(--gold) 85%,transparent),inset 0 1px 0 rgba(255,255,255,.65);
+  filter:brightness(1.04)
+}
+.buy:active{transform:scale(.97)!important}
+.buy::after{
+  content:"";position:absolute;top:-20%;left:-75%;width:45%;height:140%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.65),transparent);
+  transform:skewX(-22deg);animation:shine 3.8s ease-in-out infinite;pointer-events:none
+}
+@keyframes shine{0%,55%{left:-75%}85%,100%{left:140%}}
+
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{
+  outline:2px solid var(--gold-hi);outline-offset:3px
+}
+
+.soft-swap{animation:softReveal .58s cubic-bezier(.22,1,.36,1) both}
+@keyframes softReveal{
+  0%{opacity:0;filter:blur(7px);transform:translateY(10px)}
+  100%{opacity:1;filter:blur(0);transform:none}
+}
+
+.num-pop{display:inline-block;animation:numPop .42s cubic-bezier(.22,1,.36,1) both}
+@keyframes numPop{
+  0%{opacity:.25;transform:translateY(7px) scale(.94)}
+  100%{opacity:1;transform:none}
+}
+
+/* 3. Narx va hajm almashganda "Oltin Puls" */
+.gold-pulse{
+  border-radius:14px;
+  animation:goldPulse .72s cubic-bezier(.22,1,.36,1) both
+}
+@keyframes goldPulse{
+  0%{box-shadow:0 0 0 0 rgba(235,188,92,.75),0 0 18px rgba(235,188,92,.45);transform:scale(1.05)}
+  100%{box-shadow:0 0 0 16px rgba(235,188,92,0),0 0 0 0 rgba(235,188,92,0);transform:scale(1)}
+}
+
+/* Filtrlar & 2.1 Nota filtri */
+.controls-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.gender-bar,.note-filter-bar{
+  display:inline-flex;gap:4px;padding:4px;border-radius:999px;
+  background:var(--card);border:1px solid var(--line);
+  backdrop-filter:blur(12px);flex-wrap:wrap
+}
+.g-btn,.nf-btn{
+  padding:6px 13px;border-radius:999px;font-size:12px;font-weight:400;letter-spacing:.03em;
+  transition:all .32s cubic-bezier(.22,1,.36,1)
+}
+.g-btn.on,.nf-btn.on{
+  background:linear-gradient(135deg,var(--gold),var(--gold-hi));
+  color:#190d16;font-weight:600;box-shadow:0 6px 18px -6px var(--gold)
+}
+.g-btn:not(.on):hover,.nf-btn:not(.on):hover{background:var(--card-hi);transform:translateY(-1px)}
+
+/* 3D Hero Stage */
+#stage{position:relative;height:430vh;z-index:2}
+.st{position:sticky;top:0;height:100vh;overflow:hidden}
+#c{position:absolute;inset:0;width:100%;height:100%;z-index:1;cursor:grab;touch-action:pan-y}
+#c:active{cursor:grabbing}
+
+.txt{position:absolute;z-index:3;left:5vw;top:51%;transform:translateY(-50%);max-width:530px}
+.meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:8px}
+.badge{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold);font-weight:500
+}
+.badge::before{content:"";width:18px;height:1px;background:var(--gold)}
+.perf-pill{
+  font-size:11.5px;padding:3px 10px;border-radius:999px;
+  background:color-mix(in srgb,var(--gold) 14%,var(--card));
+  border:1px solid color-mix(in srgb,var(--gold) 35%,var(--line));
+  color:var(--ink);letter-spacing:.02em
+}
+
+h1{
+  font:500 clamp(44px,7.2vw,92px)/1 'Bodoni Moda',Georgia,serif;
+  margin-bottom:12px;
+  background:linear-gradient(105deg,var(--ink) 32%,var(--gold-hi) 50%,var(--ink) 68%) 0 0/250% 100%;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  animation:hs 7.5s linear infinite
+}
+@keyframes hs{to{background-position:-250% 0}}
+.note{color:var(--muted);max-width:44ch;margin-bottom:16px;min-height:3.2em;font-size:15px}
+.scents{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:12px;max-width:510px}
+.scents .pill{padding:6px 13px;min-height:35px;font-size:12.5px}
+.sizes,.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.price{font:500 32px/1 'Bodoni Moda',Georgia,serif;margin-right:6px;padding:4px 8px}
+
+/* 2.2 Sevimlilar / Tanlanganlar (Wishlist) tugmasi */
+.wish-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:12px 18px;min-height:48px;border-radius:999px;
+  border:1px solid var(--line);background:var(--card);backdrop-filter:blur(10px);
+  font-size:13.5px;font-weight:400;transition:all .28s cubic-bezier(.22,1,.36,1)
+}
+.wish-btn:hover{border-color:var(--gold);transform:translateY(-2px)}
+.wish-btn.on{
+  border-color:var(--gold);
+  background:color-mix(in srgb,var(--gold) 20%,var(--card));
+  color:var(--gold-hi);font-weight:500
+}
+
+.cap{position:absolute;z-index:3;left:0;right:0;bottom:11vh;text-align:center;padding:0 6vw;pointer-events:none}
+.cap h2{font:italic 500 clamp(30px,4.2vw,52px)/1.12 'Bodoni Moda',Georgia,serif;text-shadow:0 8px 30px rgba(0,0,0,.25)}
+.cap p{color:var(--muted);margin-top:6px;font-size:16px}
+
+.pyr{position:absolute;z-index:3;right:5vw;top:50%;width:min(400px,44vw);display:grid;gap:14px;transform:translateY(-50%)}
+.pyr h2{font:italic 500 34px 'Bodoni Moda',Georgia,serif}
+.pc{
+  position:relative;overflow:hidden;
+  border-left:2.5px solid var(--gold);padding:12px 18px;
+  background:color-mix(in srgb,var(--card) 85%,var(--bg));
+  border-radius:0 16px 16px 0;backdrop-filter:blur(14px);
+  box-shadow:var(--shadow);transition:transform .35s cubic-bezier(.22,1,.36,1),border-color .3s
+}
+.pc::after{
+  content:"";position:absolute;left:0;bottom:0;height:2px;width:0;
+  background:linear-gradient(90deg,var(--gold),var(--gold-hi));
+  transition:width .9s cubic-bezier(.22,1,.36,1)
+}
+.pc.evo-on::after{width:100%}
+.pc:hover{transform:translateX(-4px);border-color:var(--gold-hi)}
+.pc small{color:var(--gold);text-transform:uppercase;letter-spacing:.1em;font-size:11px;font-weight:500;display:block;margin-bottom:2px}
+.pc span{font-size:15.5px;font-weight:400}
+
+/* Marquee */
+.mq{
+  overflow:hidden;white-space:nowrap;
+  border-block:1px solid var(--line);padding:18px 0;
+  position:relative;z-index:2;
+  background:color-mix(in srgb,var(--card) 60%,transparent);backdrop-filter:blur(8px)
+}
+.mq div{display:inline-block;font:italic 500 32px 'Bodoni Moda',Georgia,serif;animation:mq 32s linear infinite;color:var(--muted)}
+.mq span{margin:0 26px;transition:color .3s}
+.mq span:hover{color:var(--gold)}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* Sections & Reveal animations */
+section.p{position:relative;z-index:2;padding:11vh 5vw}
+section.p h2.t{font:500 clamp(32px,5vw,58px)/1.08 'Bodoni Moda',Georgia,serif;margin-bottom:12px}
+.lead{color:var(--muted);max-width:56ch;margin-bottom:34px;font-size:16.5px}
+.rv{opacity:0;transform:translateY(36px) scale(.985);transition:opacity .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1);transition-delay:var(--d,0s)}
+.rv.in{opacity:1;transform:none}
+
+.tilt-card{
+  position:relative;
+  transform-style:preserve-3d;
+  will-change:transform;
+  transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .35s ease,border-color .35s ease
+}
+.tilt-card::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(360px circle at var(--mx,50%) var(--my,50%),rgba(255,244,214,.22),transparent 65%);
+  opacity:0;transition:opacity .3s ease;z-index:2
+}
+.tilt-card:hover::after{opacity:1}
+
+/* Sovg'a To'plami */
+.gift{display:grid;grid-template-columns:1.05fr 1fr;gap:5vw;align-items:center}
+.coffret-wrap{
+  position:relative;
+  padding:34px 28px 30px;
+  border-radius:32px;
+  background:
+    radial-gradient(circle at 50% 25%,color-mix(in srgb,var(--gold-hi) 24%,transparent),transparent 65%),
+    linear-gradient(155deg,color-mix(in srgb,var(--card-hi) 85%,transparent),var(--card));
+  border:1px solid color-mix(in srgb,var(--gold) 38%,var(--line));
+  backdrop-filter:blur(18px);
+  box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.35);
+  overflow:hidden
+}
+.coffret-ribbon{
+  position:absolute;top:16px;right:20px;
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+  color:var(--gold);padding:5px 12px;border-radius:999px;
+  border:1px solid color-mix(in srgb,var(--gold) 45%,transparent);
+  background:color-mix(in srgb,var(--bg) 60%,transparent)
+}
+.coffret-tray{
+  position:relative;
+  display:flex;gap:20px;justify-content:center;align-items:flex-end;
+  height:245px;padding-bottom:18px;
+  border-bottom:1px solid color-mix(in srgb,var(--gold) 35%,var(--line))
+}
+.coffret-tray::after{
+  content:"";position:absolute;left:8%;right:8%;bottom:-14px;height:22px;border-radius:10px;
+  background:linear-gradient(90deg,#7c5210,var(--gold-hi),#8e5e14,var(--gold),#7c5210);
+  box-shadow:0 12px 26px -6px rgba(0,0,0,.45)
+}
+.mb{
+  width:76px;height:132px;border-radius:16px;
+  border:1px solid rgba(255,255,255,.45);position:relative;overflow:hidden;
+  background:linear-gradient(125deg,rgba(255,255,255,.48),rgba(255,255,255,.08));
+  box-shadow:inset 0 0 24px rgba(255,255,255,.32),0 20px 34px -10px rgba(0,0,0,.4);
+  animation:fl 4.4s ease-in-out infinite,seqGleam 5.4s ease-in-out infinite;
+  animation-delay:var(--d),var(--seq,0s);
+  transform:translateZ(18px)
+}
+.mb i{
+  position:absolute;top:-30%;left:-140%;width:65%;height:160%;
+  background:linear-gradient(105deg,transparent,rgba(255,250,220,.75),transparent);
+  transform:skewX(-22deg);
+  animation:mbSweep 5.4s ease-in-out infinite;
+  animation-delay:var(--seq,0s);pointer-events:none
+}
+@keyframes mbSweep{0%,62%{left:-140%}82%{left:160%}100%{left:160%}}
+@keyframes seqGleam{0%,62%{filter:brightness(1)}72%{filter:brightness(1.22)}84%,100%{filter:brightness(1)}}
+.mb span{
+  position:absolute;left:12%;right:12%;bottom:15%;
+  padding:2px 4px;border-radius:4px;
+  background:rgba(248,239,226,.94);color:#211119;
+  font:italic 600 9.5px/1.2 'Bodoni Moda',Georgia,serif;text-align:center;
+  box-shadow:0 2px 6px rgba(0,0,0,.22);z-index:2
+}
+.mb::before{
+  content:"";position:absolute;inset:34% 8% 8%;border-radius:10px;
+  background:var(--c);opacity:.92;box-shadow:0 0 22px -3px var(--c)
+}
+.mb::after{
+  content:"";position:absolute;left:28%;right:28%;top:-26px;height:26px;
+  border-radius:7px 7px 3px 3px;
+  background:linear-gradient(90deg,#875910,#f7d377,#875910);
+  box-shadow:0 4px 10px rgba(0,0,0,.25)
+}
+@keyframes fl{0%,100%{transform:translate3d(0,0,18px) rotate(0deg)}50%{transform:translate3d(0,-13px,24px) rotate(2.2deg)}}
+.coffret-meta{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  margin-top:26px;font-size:13.5px;color:var(--muted)
+}
+.coffret-meta strong{color:var(--ink);font-weight:500}
+
+/* Reviews */
+.revs{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.rc{
+  background:var(--card);border:1px solid var(--line);border-radius:22px;padding:26px;
+  backdrop-filter:blur(12px);box-shadow:var(--shadow)
+}
+.rc:hover{border-color:color-mix(in srgb,var(--gold) 55%,var(--line));box-shadow:0 28px 58px -22px color-mix(in srgb,var(--tint) 55%,rgba(0,0,0,.38))}
+.stars{color:var(--gold);letter-spacing:3px;display:inline-block;overflow:hidden;width:0;white-space:nowrap;transition:width 1.3s .35s cubic-bezier(.22,1,.36,1);margin-bottom:10px;font-size:15px}
+.in .stars{width:7.6em}
+.rc p{font-size:15.5px;line-height:1.62}
+.rc b{display:block;margin-top:16px;font-weight:500;color:var(--gold);font-size:14px;letter-spacing:.03em}
+
+/* FAQ Accordion */
+.faq-list{display:grid;gap:12px;max-width:880px}
+.faq-item{
+  border:1px solid var(--line);border-radius:20px;
+  background:var(--card);backdrop-filter:blur(12px);
+  overflow:hidden;box-shadow:0 10px 30px -20px rgba(0,0,0,.25);
+  transition:border-color .35s,background .35s,transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s
+}
+.faq-item:hover{border-color:color-mix(in srgb,var(--gold) 55%,var(--line));transform:translateY(-2px)}
+.faq-item.open{
+  border-color:var(--gold);
+  background:color-mix(in srgb,var(--card) 75%,var(--card-hi));
+  box-shadow:0 18px 42px -22px color-mix(in srgb,var(--gold) 45%,transparent)
+}
+.faq-q{
+  width:100%;text-align:left;padding:20px 24px;
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  font:500 clamp(18px,2.2vw,23px)/1.3 'Bodoni Moda',Georgia,serif;
+  transition:color .3s
+}
+.faq-item.open .faq-q{color:var(--gold)}
+.faq-icon{
+  flex:none;width:34px;height:34px;border-radius:50%;
+  border:1px solid var(--line);background:var(--card);
+  display:grid;place-items:center;position:relative;
+  transition:transform .42s cubic-bezier(.22,1,.36,1),background .3s,border-color .3s
+}
+.faq-icon::before,.faq-icon::after{
+  content:"";position:absolute;width:13px;height:1.6px;background:var(--gold);border-radius:2px;
+  transition:transform .42s cubic-bezier(.22,1,.36,1),opacity .3s
+}
+.faq-icon::after{transform:rotate(90deg)}
+.faq-item.open .faq-icon{transform:rotate(180deg);background:var(--gold);border-color:var(--gold)}
+.faq-item.open .faq-icon::before,.faq-item.open .faq-icon::after{background:#190d16}
+.faq-item.open .faq-icon::after{transform:rotate(90deg) scale(0);opacity:0}
+
+.faq-panel{
+  display:grid;grid-template-rows:0fr;
+  transition:grid-template-rows .45s cubic-bezier(.22,1,.36,1)
+}
+.faq-item.open .faq-panel{grid-template-rows:1fr}
+.faq-inner{overflow:hidden}
+.faq-body{
+  padding:0 24px 22px;color:var(--muted);font-size:15.5px;line-height:1.72;
+  opacity:0;transform:translateY(-6px);
+  transition:opacity .38s .08s ease,transform .42s .08s cubic-bezier(.22,1,.36,1)
+}
+.faq-item.open .faq-body{opacity:1;transform:none}
+
+/* Footer */
+footer{
+  position:relative;z-index:2;padding:34px 5vw;
+  border-top:1px solid var(--line);color:var(--muted);font-size:14px;
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  background:color-mix(in srgb,var(--card) 50%,transparent)
+}
+footer a{color:var(--gold);text-decoration:none;font-weight:500;border-bottom:1px dashed transparent;transition:border-color .25s}
+footer a:hover{border-bottom-color:var(--gold)}
+
+/* Cart Drawer + 1.2 Silliq "erish" (Item Collapse) */
+.ov{position:fixed;inset:0;background:rgba(10,5,12,.58);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .4s ease;z-index:35}
+.ov.on{opacity:1;pointer-events:auto}
+.dr{
+  position:fixed;top:0;right:0;bottom:0;width:min(430px,100%);
+  background:var(--bg);z-index:36;
+  transform:translateX(106%);visibility:hidden;
+  transition:transform .52s cubic-bezier(.22,1,.36,1),visibility 0s .52s;
+  padding:calc(24px + env(safe-area-inset-top,0px)) 24px calc(24px + env(safe-area-inset-bottom,0px));
+  display:flex;flex-direction:column;gap:12px;overflow-y:auto;
+  border-left:1px solid var(--line);box-shadow:-24px 0 60px rgba(0,0,0,.35)
+}
+.dr.on{transform:none;visibility:visible;transition:transform .52s cubic-bezier(.22,1,.36,1)}
+.dr:focus{outline:none}
+
+.wish-box{
+  padding:10px 12px;border-radius:16px;
+  border:1px dashed color-mix(in srgb,var(--gold) 45%,var(--line));
+  background:color-mix(in srgb,var(--gold) 7%,var(--card))
+}
+.wish-box small{display:block;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:500}
+.wish-chips{display:flex;gap:6px;flex-wrap:wrap}
+.wish-chip{
+  padding:5px 10px;border-radius:999px;font-size:12px;
+  background:var(--card);border:1px solid var(--line);transition:all .25s
+}
+.wish-chip:hover{border-color:var(--gold);transform:translateY(-1px)}
+
+.items{flex:1;min-height:90px;overflow:auto;display:grid;gap:10px;align-content:start}
+.it{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  padding:12px 14px;border:1px solid var(--line);border-radius:16px;
+  background:var(--card);
+  transition:opacity .32s ease,transform .32s cubic-bezier(.22,1,.36,1),max-height .35s ease,padding .35s ease,margin .35s ease
+}
+.it.removing{
+  opacity:0;transform:translateX(28px) scale(.92);
+  max-height:0;padding-top:0;padding-bottom:0;margin:0;border-width:0;overflow:hidden
+}
+.q{display:flex;gap:8px;align-items:center}
+.q button{
+  width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);
+  font-size:16px;transition:transform .2s,background .25s,border-color .25s
+}
+.q button:hover{transform:scale(1.08);border-color:var(--gold);background:var(--card-hi)}
+.q button:active{transform:scale(.92)}
+.dr input,.dr select{
+  width:100%;padding:12px 14px;border-radius:14px;border:1px solid var(--line);
+  background:var(--card);color:var(--ink);font:inherit;transition:border-color .25s,box-shadow .25s
+}
+.dr input:focus,.dr select:focus{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 20%,transparent)}
+.dr select option{background:var(--bg);color:var(--ink)}
+.tot{display:flex;justify-content:space-between;font:500 24px 'Bodoni Moda',Georgia,serif;padding-top:6px;border-top:1px solid var(--line)}
+.pt{font-size:13.5px;color:var(--muted)}
+.pay{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pay button{
+  padding:11px;border:1px solid var(--line);border-radius:14px;background:var(--card);
+  min-height:44px;font-size:13.5px;transition:all .25s ease
+}
+.pay button:hover{border-color:color-mix(in srgb,var(--gold) 60%,var(--line));transform:translateY(-1px)}
+.pay button.on{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 16%,var(--card));font-weight:500;box-shadow:inset 0 0 0 1px var(--gold)}
+
+/* Preloader */
+#ld{
+  position:fixed;inset:0;z-index:100;background:var(--bg);
+  display:grid;place-content:center;justify-items:center;gap:18px;
+  transition:opacity .75s cubic-bezier(.22,1,.36,1),visibility .75s
+}
+#ld.off{opacity:0;visibility:hidden}
+#ld i{display:block;width:170px;height:2px;background:var(--line);overflow:hidden;border-radius:2px}
+#ld i::after{content:"";display:block;height:100%;width:45%;background:linear-gradient(90deg,var(--gold),var(--gold-hi));animation:ldb 1.15s ease-in-out infinite}
+@keyframes ldb{from{transform:translateX(-110%)}to{transform:translateX(250%)}}
+
+@media(max-width:820px){
+  .txt{top:auto;bottom:3.5vh;transform:none;right:5vw;max-width:90vw}
+  .scents{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px;max-width:90vw;scrollbar-width:none}
+  .scents::-webkit-scrollbar{display:none}
+  .scents .pill{flex:none}
+  .pyr{top:auto;bottom:4vh;transform:none;width:90vw;right:5vw}
+  .gift,.revs{grid-template-columns:1fr}
+  .cap{bottom:34vh}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}
+  .faq-panel{grid-template-rows:1fr}
+  .faq-body{opacity:1;transform:none}
+  #trailCanvas,.fly-orb,.lang-breath{display:none}
+}
+</style>
+</head>
+<body>
+<div id="ld" role="status" aria-label="Yuklanmoqda"><div class="logo" style="font-size:48px">Atlas</div><i></i></div>
+<script>setTimeout(function(){var l=document.getElementById("ld");if(l)l.className="off"},5000)</script>
+
+<div class="lang-breath" id="langBreath" aria-hidden="true"></div>
+<div class="amb" id="ambLayer" aria-hidden="true"></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+<canvas id="trailCanvas" aria-hidden="true"></canvas>
+<div id="sp"></div>
+
+<header>
+  <div class="logo">Atlas</div>
+  <div class="bar">
+    <button class="pill foil-shine" data-l="uz">UZ</button>
+    <button class="pill foil-shine" data-l="ru">RU</button>
+    <button class="pill foil-shine" id="th" aria-label="Kun / tun">◐</button>
+    <button class="pill foil-shine cartb" id="cb"><span data-i="cart"></span> · <span id="n">0</span></button>
+  </div>
+</header>
+
+<div id="stage">
+  <div class="st">
+    <canvas id="c" aria-label="3D parfyum shishasi"></canvas>
+    <div class="txt" id="hero">
+      <div class="controls-top">
+        <div class="gender-bar" id="genderBar" role="group" aria-label="Yo'nalish">
+          <button class="g-btn on" data-g="all" data-i="gAll"></button>
+          <button class="g-btn" data-g="men" data-i="gMen"></button>
+          <button class="g-btn" data-g="women" data-i="gWomen"></button>
+        </div>
+        <div class="note-filter-bar" id="noteBar" role="group" aria-label="Nota guruhi">
+          <button class="nf-btn on" data-nf="all" data-i="nfAll"></button>
+          <button class="nf-btn" data-nf="wood" data-i="nfWood"></button>
+          <button class="nf-btn" data-nf="floral" data-i="nfFloral"></button>
+          <button class="nf-btn" data-nf="fresh" data-i="nfFresh"></button>
+        </div>
+      </div>
+      <div class="meta-row">
+        <div class="badge" id="gTag"></div>
+        <span class="perf-pill" id="perfMeta"></span>
+      </div>
+      <h1 id="name"></h1>
+      <p class="note" id="note" aria-live="polite"></p>
+      <div class="scents" id="scents"></div>
+      <div class="sizes" id="sizes"></div>
+      <div class="row">
+        <span class="price" id="price"></span>
+        <button class="buy mag-btn foil-shine" id="buy" data-i="buy"></button>
+        <button class="wish-btn" id="wishBtn" aria-pressed="false">♡ <span data-i="wish"></span> (<span id="wishCount">0</span>)</button>
+      </div>
+    </div>
+    <div class="cap" id="cap">
+      <h2 data-i="open"></h2>
+      <p data-i="openp"></p>
+    </div>
+    <div class="pyr" id="pyr">
+      <h2 data-i="pyr"></h2>
+      <div class="pc"><small data-i="top"></small><span id="n0"></span></div>
+      <div class="pc"><small data-i="mid"></small><span id="n1"></span></div>
+      <div class="pc"><small data-i="base"></small><span id="n2"></span></div>
+    </div>
+  </div>
+</div>
+
+<div class="mq"><div id="mq"></div></div>
+
+<section class="p gift">
+  <div class="rv">
+    <h2 class="t" data-i="gift"></h2>
+    <p class="lead" data-i="giftp"></p>
+    <div class="row">
+      <span class="price" id="gp"></span>
+      <button class="buy mag-btn foil-shine" id="gb" data-i="giftb"></button>
+    </div>
+  </div>
+  <div class="coffret-wrap tilt-card foil-shine rv" style="--d:.18s">
+    <span class="coffret-ribbon" data-i="giftBadge"></span>
+    <div class="coffret-tray">
+      <div class="mb" style="--c:#2c5e7a;--d:0s;--seq:0s"><i></i><span>Cobalt</span></div>
+      <div class="mb" style="--c:#c97a1e;--d:.55s;--seq:1.8s"><i></i><span>Solis</span></div>
+      <div class="mb" style="--c:#c74b78;--d:1.1s;--seq:3.6s"><i></i><span>Rosa</span></div>
+    </div>
+    <div class="coffret-meta">
+      <span><strong data-i="giftVol"></strong> · <span data-i="giftSub"></span></span>
+      <span style="color:var(--gold);font-weight:500">Eau de Parfum</span>
+    </div>
+  </div>
+</section>
+
+<section class="p">
+  <h2 class="t rv" data-i="rev"></h2>
+  <div class="revs">
+    <div class="rc tilt-card foil-shine rv"><span class="stars">★★★★★</span><p data-i="r1"></p><b>Rustam, Toshkent</b></div>
+    <div class="rc tilt-card foil-shine rv" style="--d:.14s"><span class="stars">★★★★★</span><p data-i="r2"></p><b>Sabina, Samarqand</b></div>
+    <div class="rc tilt-card foil-shine rv" style="--d:.28s"><span class="stars">★★★★★</span><p data-i="r3"></p><b>Kamola, Buxoro</b></div>
+  </div>
+</section>
+
+<section class="p faq" id="faqSec">
+  <h2 class="t rv" data-i="faq"></h2>
+  <div class="faq-list rv" id="faqList">
+    <div class="faq-item open">
+      <button class="faq-q" aria-expanded="true"><span data-i="f1"></span><span class="faq-icon" aria-hidden="true"></span></button>
+      <div class="faq-panel"><div class="faq-inner"><p class="faq-body" data-i="a1"></p></div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false"><span data-i="f2"></span><span class="faq-icon" aria-hidden="true"></span></button>
+      <div class="faq-panel"><div class="faq-inner"><p class="faq-body" data-i="a2"></p></div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false"><span data-i="f3"></span><span class="faq-icon" aria-hidden="true"></span></button>
+      <div class="faq-panel"><div class="faq-inner"><p class="faq-body" data-i="a3"></p></div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false"><span data-i="f4"></span><span class="faq-icon" aria-hidden="true"></span></button>
+      <div class="faq-panel"><div class="faq-inner"><p class="faq-body" data-i="a4"></p></div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false"><span data-i="f5"></span><span class="faq-icon" aria-hidden="true"></span></button>
+      <div class="faq-panel"><div class="faq-inner"><p class="faq-body" data-i="a5"></p></div></div>
+    </div>
+  </div>
+</section>
+
+<footer id="ftSec">
+  <span>© 2026 Atlas Parfyum</span>
+  <span><a href="https://t.me/atlas_parfyum" target="_blank" rel="noopener">Telegram @atlas_parfyum</a> · <span data-i="ft"></span></span>
+</footer>
+
+<div class="ov" id="ov"></div>
+<aside class="dr" id="dr" role="dialog" aria-modal="true" tabindex="-1" aria-label="Savat">
+  <h2 class="serif" data-i="cart" style="font-size:30px"></h2>
+  <div class="wish-box" id="wishBox" style="display:none">
+    <small data-i="wishTitle"></small>
+    <div class="wish-chips" id="wishChips"></div>
+  </div>
+  <div class="items" id="items"></div>
+  <select id="ct" aria-label="Shahar"></select>
+  <input id="ad" data-p="adr" autocomplete="street-address">
+  <div class="pt" style="display:flex;justify-content:space-between"><span data-i="dlv"></span><span id="dv"></span></div>
+  <div class="pt" id="fr" style="color:var(--gold)"></div>
+  <div class="tot"><span data-i="tot"></span><span id="tt"></span></div>
+  <div class="pt" data-i="payt"></div>
+  <div class="pay" id="pay" role="group"></div>
+  <input id="fn" data-p="nm">
+  <input id="fp" data-p="ph" inputmode="tel">
+  <button class="buy foil-shine" id="send" data-i="send"></button>
+  <p id="msg" role="status" style="color:var(--gold)"></p>
+</aside>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
+<script>
+const T={
+uz:{
+  cart:"Savat",buy:"Savatga qo'shish",added:"Purkaldi & qo'shildi",
+  wish:"Sevimli",wishTitle:"Tanlangan atirlar",
+  open:"Qopqoqni oching",openp:"Haqiqiy xarakter shu yerdan uyg'onadi.",
+  pyr:"Hid piramidasi",top:"Yuqori notalar · 0–15m",mid:"O'rta notalar · 15m–3h",base:"Pastki notalar · 3–12h",
+  gift:"Sovg'a to'plami",giftp:"Uchta sara atir, har biri 30 ml — qattiq baxmal quti, oltin taglik va maxsus muhr bilan.",
+  giftb:"To'plamni qo'shish",gset:"Sovg'a to'plami 3×30 ml",
+  giftBadge:"Luxe Coffret",giftVol:"3 × 30 ml",giftSub:"Qo'lda terilgan to'plam",
+  rev:"Mijozlar fikri",
+  r1:"Cobalt Wood va Vetiver Smoke 10 soatdan keyin ham kostyumimda sezilib turdi. Juda kuchli va aristokratik.",
+  r2:"Rosa Alba bahor havosidek nafis va tiniq. Qadoqlash ham darhol sovg'aga tayyor.",
+  r3:"Crema Vaniglia sovuq kunlarda xuddi iliq kashmir sharfdek o'rab oladi.",
+  tot:"Jami",nm:"Ismingiz",ph:"Telefon raqamingiz",send:"Buyurtma berish",
+  thx:"Rahmat! Buyurtmangiz qabul qilindi, tez orada bog'lanamiz.",
+  empty:"Savat bo'sh",cur:"so'm",ft:"Maison de Parfum · 2026",
+  payt:"To'lov usulini tanlang",pays:["Naqd pul","Click","Payme","Uzcard / Humo"],
+  faq:"Ko'p beriladigan savollar",adr:"Manzil (ko'cha, uy)",dlv:"Yetkazib berish",
+  free:"Bepul",more:"Bepul yetkazishgacha yana ",oth:"Boshqa viloyat",
+  gAll:"Barchasi",gMen:"Erkaklar (8)",gWomen:"Ayollar (6)",
+  nfAll:"Barcha nota",nfWood:"Yog'och & Tutun",nfFloral:"Gul & Musk",nfFresh:"Sitrus & Yangi",
+  tagMen:"Erkaklar kolleksiyasi · Eau de Parfum",tagWomen:"Ayollar kolleksiyasi · Eau de Parfum",
+  f1:"Hid qancha vaqt saqlanadi?",a1:"Eau de parfum konsentratsiyasida o'rtacha 7–9 soat, Cobalt Wood, Vetiver Smoke va Solis Oro esa 10–12 soatgacha terida va kiyimda saqlanadi.",
+  f2:"Yetkazib berish qancha vaqt oladi?",a2:"Toshkent shahrida 1–2 kun, Samarqand, Buxoro va boshqa viloyatlarga 2–4 kun. 1 000 000 so'mdan oshgan buyurtmalarga yetkazib berish bepul.",
+  f3:"Qaytarish yoki almashtirish mumkinmi?",a3:"Zavod plyonkasi ochilmagan va muhrlangan flakonlarni xarid qilingan kundan boshlab 7 kun ichida qaytarish yoki boshqa atirga almashtirish mumkin.",
+  f4:"Atirlar originalmi va qanday saqlanadi?",a4:"Har bir flakon individual partiya raqami va muhr bilan chiqariladi. To'g'ridan-to'g'ri quyosh nuri tushmaydigan salqin joyda saqlash tavsiya etiladi.",
+  f5:"Erkaklar va ayollar hidini qanday tanlash mumkin?",a5:"Erkaklar uchun yog'och, tutun, vetiver, teri va achchiq sitrus notalari; ayollar uchun oq atirgul, pion, iris, anor va shirin amber-vanil uyg'unligi tavsiya etiladi. Ikkilansangiz, 3×30 ml sovg'a to'plamidan boshlang."
+},
+ru:{
+  cart:"Корзина",buy:"В корзину",added:"Распылено и добавлено",
+  wish:"Избранное",wishTitle:"Избранные ароматы",
+  open:"Откройте флакон",openp:"Характер аромата раскрывается здесь.",
+  pyr:"Пирамида аромата",top:"Верхние ноты · 0–15м",mid:"Ноты сердца · 15м–3ч",base:"Базовые ноты · 3–12ч",
+  gift:"Подарочный набор",giftp:"Три избранных аромата по 30 мл — жёсткий бархатный футляр, золотой поддон и фирменная печать.",
+  giftb:"Добавить набор",gset:"Подарочный набор 3×30 мл",
+  giftBadge:"Luxe Coffret",giftVol:"3 × 30 мл",giftSub:"Ручная сборка",
+  rev:"Отзывы клиентов",
+  r1:"Cobalt Wood и Vetiver Smoke держались на пиджаке даже спустя 10 часов. Глубокий и статусный шлейф.",
+  r2:"Rosa Alba звучит как весенний ветер. Упаковка сразу готова для подарка.",
+  r3:"Crema Vaniglia в прохладную погоду окутывает как мягкий кашемир.",
+  tot:"Итого",nm:"Ваше имя",ph:"Ваш телефон",send:"Оформить заказ",
+  thx:"Спасибо! Заказ принят, скоро свяжемся с вами.",
+  empty:"Корзина пуста",cur:"сум",ft:"Maison de Parfum · 2026",
+  payt:"Выберите способ оплаты",pays:["Наличные","Click","Payme","Uzcard / Humo"],
+  faq:"Частые вопросы",adr:"Адрес (улица, дом)",dlv:"Доставка",
+  free:"Бесплатно",more:"До бесплатной доставки ещё ",oth:"Другой регион",
+  gAll:"Все",gMen:"Мужские (8)",gWomen:"Женские (6)",
+  nfAll:"Все ноты",nfWood:"Древесные и дым",nfFloral:"Цветочные и мускус",nfFresh:"Цитрус и свежесть",
+  tagMen:"Мужская коллекция · Eau de Parfum",tagWomen:"Женская коллекция · Eau de Parfum",
+  f1:"Как долго держится аромат?",a1:"В концентрации Eau de Parfum ароматы держатся 7–9 часов, а Cobalt Wood, Vetiver Smoke и Solis Oro — до 10–12 часов.",
+  f2:"Сколько занимает доставка?",a2:"По Ташкенту 1–2 дня, в Самарканд, Бухару и другие регионы 2–4 дня. Бесплатно от 1 000 000 сум.",
+  f3:"Можно ли вернуть или обменять?",a3:"Нераспечатанные флаконы в заводской плёнке можно вернуть или обменять в течение 7 дней.",
+  f4:"Ароматы оригинальные?",a4:"Да, каждый флакон имеет номер партии и защитную пломбу. Храните вдали от прямых солнечных лучей.",
+  f5:"Как выбрать мужской или женский аромат?",a5:"Мужчинам подойдут древесные, дымные, кожаные и пряно-цитрусовые аккорды; женщинам — белая роза, пион, ирис, гранат и ванильная амбра."
+}
+};
+
+/* nf: wood | floral | fresh */
+const S=[
+  {n:"Cobalt Wood",g:"men",nf:"wood",fx:"smoke",c:0x2a5876,bg:"#1d4159",p:890000,s:3,lon:"10–12h",sil:"High",
+   uz:["Kobalt tutuni, qora murch va islangan teri. Chuqur va sovuqqon erkaklar hidi.","Qora murch, tutatqi","Kobalt sidr, zira","Islangan teri, pachuli"],
+   ru:["Дымный кобальт, чёрный перец и выделанная кожа. Глубокий мужской шлейф.","Чёрный перец, ладан","Кобальтовый кедр, тмин","Кожа, пачули"]},
+  {n:"Vetiver Smoke",g:"men",nf:"wood",fx:"forest",c:0x2f6b52,bg:"#1e4d39",p:780000,s:8,lon:"9–11h",sil:"High",
+   uz:["Zumrad vetiver, achchiq greyfurt va yashil archa. Aslzoda va o'tkir.","Greyfurt, archa","Vetiver, shalfey","Zumrad kedr, dub moxi"],
+   ru:["Изумрудный ветивер, горький грейпфрут и можжевельник. Благородный характер.","Грейпфрут, можжевельник","Ветивер, шалфей","Изумрудный кедр, мох"]},
+  {n:"Solis Oro",g:"men",nf:"wood",fx:"dust",c:0xd8921e,bg:"#ad7010",p:820000,s:4,lon:"10–12h",sil:"High",
+   uz:["Quyosh zarhal ziravorlari, qizil mandarin va issiq amber. Mag'rur va uzoq saqlanadi.","Zafar, qizil mandarin","Kardamon, asal","Qahrabo, sandal"],
+   ru:["Солнечные пряности, красный мандарин и тёплая амбра. Статусный и стойкий.","Шафран, красный мандарин","Кардамон, мёд","Янтарь, сандал"]},
+  {n:"Cuoio Bruma",g:"men",nf:"wood",fx:"ember",c:0xb34724,bg:"#873116",p:850000,s:7,lon:"9–11h",sil:"High",
+   uz:["Mis-qahrabo teri, dolchin va iliq tutatqi. Kechki ziyofatlar uchun.","Dolchin, qizil teri","Tutatqi, zanjabil","Amber, qora vanil"],
+   ru:["Медно-янтарная кожа, корица и тёплый ладан. Для вечерних выходов.","Корица, кожа","Ладан, имбирь","Амбра, тёмная ваниль"]},
+  {n:"Mare Glaciale",g:"men",nf:"fresh",fx:"sea",c:0x298bc2,bg:"#196594",p:670000,s:5,lon:"6–8h",sil:"Medium",
+   uz:["Firyuza dengiz shamoli, dengiz tuzi va rozmarin. Erkin va tetiklantiruvchi.","Dengiz tuzi, bergamot","Rozmarin, lavanda","Kukunli kedr, oq amber"],
+   ru:["Бирюзовый морской бриз, соль и розмарин. Свежий и свободный.","Морская соль, бергамот","Розмарин, лаванда","Кедр, белая амбра"]},
+  {n:"Notte Blu",g:"men",nf:"wood",fx:"star",c:0x394ca8,bg:"#263580",p:840000,s:1,lon:"8–10h",sil:"High",
+   uz:["Safir tungi osmon, qora choy va tutunli vetiver. Tungi sokinlik hidi.","Qora choy, bergamot","Anjir bargi, binafsha","Vetiver, qora musk"],
+   ru:["Сапфировая ночь, чёрный чай и дымный ветивер. Аромат ночной глубины.","Чёрный чай, бергамот","Лист инжира, фиалка","Ветивер, чёрный мускус"]},
+  {n:"Legno Sacro",g:"men",nf:"wood",fx:"dust",c:0x8c542b,bg:"#693c1c",p:760000,s:0,lon:"8–10h",sil:"Medium",
+   uz:["Bronza sandal daraxti, qora murch va quruq sidr. Salobatli va muvozanatli.","Qora murch, koriandr","Bronza sandal, sarvi","Sidr, musk"],
+   ru:["Бронзовый сандал, чёрный перец и сухой кедр. Собранный и глубокий.","Чёрный перец, кориандр","Сандал, кипарис","Кедр, мускус"]},
+  {n:"Zenzero Vivo",g:"men",nf:"fresh",fx:"spark",c:0xc97d22,bg:"#9c5d12",p:710000,s:6,lon:"7–9h",sil:"Medium",
+   uz:["Yorqin oltin zanjabil, bergamot va oq kedr. Faol kun uchun energiya.","Bergamot, zanjabil","Qora choy, neroli","Oq kedr, ambroksan"],
+   ru:["Яркий золотой имбирь, бергамот и белый кедр. Энергия дня.","Бергамот, имбирь","Чёрный чай, нероли","Белый кедр, амброксан"]},
+  {n:"Rosa Alba",g:"women",nf:"floral",fx:"petal",c:0xd95982,bg:"#ab3158",p:740000,s:2,lon:"7–9h",sil:"Soft",
+   uz:["Marvarid-pushti atirgul, ipak pion va oq musk. Nafis, nozik va bahoriy.","Pion, litchi","Oq-pushti atirgul","Oq musk, sandal"],
+   ru:["Розово-жемчужная роза, шёлковый пион и белый мускус. Нежный и утончённый.","Пион, личи","Роза, белые цветы","Белый мускус, сандал"]},
+  {n:"Melograno Rubino",g:"women",nf:"floral",fx:"ruby",c:0xb52448,bg:"#8c1634",p:720000,s:0,lon:"8–10h",sil:"High",
+   uz:["Yoqut anor, qizil rezavor va atirgul. Ehtirosli va jozibador ayollar hidi.","Anor, qizil rezavor","Atirgul, pion","Sandal, qahrabo"],
+   ru:["Рубиновый гранат, красные ягоды и роза. Чувственный женский шлейф.","Гранат, красные ягоды","Роза, пион","Сандал, амбра"]},
+  {n:"Iris Viola",g:"women",nf:"floral",fx:"bokeh",c:0x9d5cd6,bg:"#7036a8",p:690000,s:6,lon:"7–9h",sil:"Soft",
+   uz:["Binafsha-lilak iris, binafsha va pudra. Romantik va mayin.","Binafsha, malina","Florensiya irisi","Pudra, yumshoq vanil"],
+   ru:["Сиренево-фиалковый ирис, фиалка и пудра. Романтичный и мягкий.","Фиалка, малина","Ирис, фиалка","Пудра, мягкая ваниль"]},
+  {n:"Seta Verde",g:"women",nf:"fresh",fx:"silk",c:0x42ad88,bg:"#1f6e53",p:650000,s:5,lon:"6–8h",sil:"Soft",
+   uz:["Yashil ipak, nilufar va oq choy. Tiniq, yengil va kunduzgi.","Yashil barg, limon","Nilufar, yasmin","Oq musk, kedr"],
+   ru:["Зелёный шёлк, лотос и белый чай. Прозрачный и лёгкий дневной.","Зелёный лист, лимон","Лотос, жасмин","Белый мускус, кедр"]},
+  {n:"Crema Vaniglia",g:"women",nf:"floral",fx:"snow",c:0xe3bc78,bg:"#a87d36",p:660000,s:7,lon:"8–10h",sil:"Medium",
+   uz:["Kaymakli vanil, krem va tonka loviyasi. Issiq, shirin va qulay.","Krem, shirin mandarin","Vanil, tonka","Karamel, oq musk"],
+   ru:["Сливочная ваниль, крем и бобы тонка. Тёплый и уютный.","Сливки, мандарин","Ваниль, тонка","Карамель, белый мускус"]},
+  {n:"Gelsomino Stella",g:"women",nf:"floral",fx:"petal",c:0xdc88a8,bg:"#ab4e73",p:730000,s:4,lon:"7–9h",sil:"Medium",
+   uz:["Yulduzli yasmin, apelsin guli va asal. Quyoshdek yorqin va nafis.","Apelsin guli, neroli","Sambak yasmini, asal","Sandal, iliq amber"],
+   ru:["Звёздный жасмин, флёрдоранж и мёд. Сияющий и женственный аромат.","Флёрдоранж, нероли","Жасмин самбак, мёд","Сандал, тёплая амбра"]}
+];
+
+const Z=[[30,.65],[50,1],[100,1.7]],GP=1690000;
+let lang="uz",genderFilter="all",noteFilter="all",cur=0,zi=1,cart=[],wish=[],pyi=0,ci=0;
+try{
+  const v=JSON.parse(localStorage.getItem("atlas"));if(Array.isArray(v))cart=v;
+  const w=JSON.parse(localStorage.getItem("atlas_wish"));if(Array.isArray(w))wish=w;
+}catch(e){}
+
+const $=id=>document.getElementById(id);
+const fm=v=>v.toLocaleString("ru-RU")+" "+T[lang].cur;
+const pr=()=>Math.round(S[cur].p*Z[zi][1]/1000)*1000;
+
+function triggerSoftSwap(els){
+  els.forEach(el=>{
+    if(!el)return;
+    el.classList.remove("soft-swap");
+    void el.offsetWidth;
+    el.classList.add("soft-swap");
+  });
+}
+
+function animateNum(el,text){
+  if(!el)return;
+  el.textContent=text;
+  el.classList.remove("num-pop");
+  void el.offsetWidth;
+  el.classList.add("num-pop");
+}
+
+/* 3. Narx va hajm almashganda "Oltin Puls" */
+function triggerGoldPulse(el){
+  if(!el)return;
+  el.classList.remove("gold-pulse");
+  void el.offsetWidth;
+  el.classList.add("gold-pulse");
+}
+
+function filteredIndices(){
+  return S.map((s,i)=>{
+    const gOk=genderFilter==="all"||s.g===genderFilter;
+    const nOk=noteFilter==="all"||s.nf===noteFilter;
+    return (gOk&&nOk)?i:-1;
+  }).filter(i=>i>=0);
+}
+
+function applyFilters(){
+  [...$("genderBar").children].forEach(b=>b.classList.toggle("on",b.dataset.g===genderFilter));
+  [...$("noteBar").children].forEach(b=>b.classList.toggle("on",b.dataset.nf===noteFilter));
+  const list=filteredIndices();
+  if(list.length && !list.includes(cur))pick(list[0]);
+  else ui(true);
+}
+
+[...$("genderBar").children].forEach(b=>b.onclick=()=>{genderFilter=b.dataset.g;applyFilters()});
+[...$("noteBar").children].forEach(b=>b.onclick=()=>{noteFilter=b.dataset.nf;applyFilters()});
+
+function tx(){
+  const lb=$("langBreath");
+  if(lb){lb.classList.add("on");setTimeout(()=>lb.classList.remove("on"),420)}
+  document.querySelectorAll("[data-i]").forEach(e=>e.textContent=T[lang][e.dataset.i]);
+  document.querySelectorAll("[data-p]").forEach(e=>e.placeholder=T[lang][e.dataset.p]);
+  document.documentElement.lang=lang;
+  document.querySelectorAll("[data-l]").forEach(b=>b.classList.toggle("on",b.dataset.l==lang));
+  ui(true);rc();pb();renderWishBox();
+}
+document.querySelectorAll("[data-l]").forEach(b=>b.onclick=()=>{lang=b.dataset.l;tx()});
+
+$("th").onclick=()=>{
+  const d=document.documentElement;
+  const dark=getComputedStyle(d).getPropertyValue("--bg").trim()==="#100914";
+  d.dataset.theme=dark?"light":"dark";
+};
+
+function renderScentButtons(){
+  const w=$("scents");w.innerHTML="";
+  filteredIndices().forEach(i=>{
+    const s=S[i],b=document.createElement("button");
+    b.className="pill foil-shine"+(i===cur?" on":"");
+    b.textContent=s.n;
+    b.setAttribute("aria-pressed",i===cur);
+    b.onclick=()=>pick(i);
+    w.appendChild(b);
+  });
+}
+
+{const mw=S.map(s=>"<span>"+s.n+"</span>").join("");$("mq").innerHTML=mw+mw}
+
+Z.forEach((z,i)=>{
+  const b=document.createElement("button");
+  b.className="pill foil-shine";b.textContent=z[0]+" ml";
+  b.onclick=()=>{zi=i;ui(true,true);label()};
+  $("sizes").appendChild(b);
+});
+
+/* 2.2 Sevimlilar (Wishlist) */
+function updateWishBtn(){
+  const on=wish.includes(cur);
+  const btn=$("wishBtn");
+  btn.classList.toggle("on",on);
+  btn.setAttribute("aria-pressed",on);
+  btn.firstChild.textContent=on?"♥ ":"♡ ";
+  $("wishCount").textContent=wish.length;
+  try{localStorage.setItem("atlas_wish",JSON.stringify(wish))}catch(e){}
+}
+
+function renderWishBox(){
+  const box=$("wishBox"),chips=$("wishChips");
+  if(!wish.length){box.style.display="none";return}
+  box.style.display="block";chips.innerHTML="";
+  wish.forEach(idx=>{
+    if(!S[idx])return;
+    const ch=document.createElement("button");
+    ch.className="wish-chip";
+    ch.textContent="♥ "+S[idx].n+" +";
+    ch.onclick=()=>{add(idx+"-"+zi,S[idx].n+" "+Z[zi][0]+" ml",Math.round(S[idx].p*Z[zi][1]/1000)*1000,ch)};
+    chips.appendChild(ch);
+  });
+}
+
+$("wishBtn").onclick=()=>{
+  if(wish.includes(cur))wish=wish.filter(x=>x!==cur);
+  else wish.push(cur);
+  updateWishBtn();renderWishBox();
+};
+
+function ui(animateText=false,pulsePrice=false){
+  renderScentButtons();
+  const s=S[cur],d=s[lang];
+  $("name").textContent=s.n;
+  $("gTag").textContent=s.g==="men"?T[lang].tagMen:T[lang].tagWomen;
+  $("perfMeta").textContent="EDP · "+s.lon+" · "+s.sil;
+  $("note").textContent=d[0];
+  animateNum($("price"),fm(pr()));
+  animateNum($("gp"),fm(GP));
+  if(pulsePrice)triggerGoldPulse($("price"));
+  [0,1,2].forEach(i=>$("n"+i).textContent=d[i+1]);
+  [...$("sizes").children].forEach((b,j)=>{b.classList.toggle("on",j==zi);b.setAttribute("aria-pressed",j==zi)});
+  updateWishBtn();
+  if(animateText){
+    triggerSoftSwap([$("name"),$("note"),$("gTag"),$("perfMeta"),$("n0"),$("n1"),$("n2")]);
+  }
+}
+
+function pick(i){
+  cur=i;
+  tgt.set(S[i].c);
+  spin=.18;
+  sloshVel+=(Math.random()>.5?1:-1)*.22;
+  burstWave=1;
+  document.documentElement.style.setProperty("--tint",S[i].bg);
+  fa=0;
+  initFxParticles();
+  shape(S[i].s);
+  ui(true,false);
+  label();
+}
+
+function flyToCart(sourceEl){
+  if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+  const cartBtn=$("cb");
+  if(!sourceEl||!cartBtn)return;
+  const r1=sourceEl.getBoundingClientRect();
+  const r2=cartBtn.getBoundingClientRect();
+  const orb=document.createElement("div");
+  orb.className="fly-orb";
+  orb.style.left=(r1.left+r1.width/2)+"px";
+  orb.style.top=(r1.top+r1.height/2)+"px";
+  document.body.appendChild(orb);
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      orb.style.left=(r2.left+r2.width/2)+"px";
+      orb.style.top=(r2.top+r2.height/2)+"px";
+      orb.style.transform="translate(-50%,-50%) scale(.35)";
+      orb.style.opacity="0.2";
+    });
+  });
+  setTimeout(()=>orb.remove(),760);
+}
+
+function add(k,name,price,srcEl){
+  const f=cart.find(x=>x.k==k);f?f.q++:cart.push({k,name,price,q:1});
+  rc();
+  flyToCart(srcEl);
+  setTimeout(()=>{
+    const badge=$("n").parentElement;
+    badge.classList.remove("bump");void badge.offsetWidth;badge.classList.add("bump");
+  },520);
+}
+
+$("buy").onclick=e=>{
+  triggerMistSpray();
+  add(cur+"-"+zi,S[cur].n+" "+Z[zi][0]+" ml",pr(),e.currentTarget);
+  const b=$("buy");b.textContent=T[lang].added;
+  setTimeout(()=>b.textContent=T[lang].buy,1250);
+};
+$("gb").onclick=e=>{
+  add("set",T[lang].gset,GP,e.currentTarget);
+  setTimeout(()=>op(true),420);
+};
+
+const CT=[["Toshkent",25000],["Samarqand",35000],["Buxoro",40000],["oth",50000]];
+function pb(){
+  const sl=$("ct");sl.innerHTML="";
+  CT.forEach((c,i)=>{const o=document.createElement("option");o.value=i;o.textContent=(c[0]=="oth"?T[lang].oth:c[0])+" · "+fm(c[1]);sl.appendChild(o)});
+  sl.value=ci;sl.onchange=()=>{ci=+sl.value;rc()};
+  const w=$("pay");w.innerHTML="";
+  T[lang].pays.forEach((n,i)=>{
+    const b=document.createElement("button");
+    b.className="foil-shine"+(i==pyi?" on":"");
+    b.textContent=n;b.setAttribute("aria-pressed",i==pyi);
+    b.onclick=()=>{pyi=i;pb()};
+    w.appendChild(b);
+  });
+}
+
+function rc(){
+  try{localStorage.setItem("atlas",JSON.stringify(cart))}catch(e){}
+  animateNum($("n"),String(cart.reduce((a,x)=>a+x.q,0)));
+  const sb=cart.reduce((a,x)=>a+x.q*x.price,0),d=sb>=1e6||!sb?0:CT[ci][1];
+  $("dv").textContent=d?fm(d):T[lang].free;
+  $("fr").textContent=sb&&sb<1e6?T[lang].more+fm(1e6-sb):"";
+  animateNum($("tt"),fm(sb+d));
+  const w=$("items");w.innerHTML="";
+  if(!cart.length){w.innerHTML="<p style='color:var(--muted)'>"+T[lang].empty+"</p>";return}
+  cart.forEach(x=>{
+    const e=document.createElement("div");e.className="it";
+    e.innerHTML="<div>"+x.name+"<br><small>"+fm(x.price)+"</small></div><div class='q'><button aria-label='-'>−</button><span>"+x.q+"</span><button aria-label='+'>+</button></div>";
+    const [m,p]=e.querySelectorAll("button");
+    /* 1.2 Silliq "erish" (Smooth Item Collapse) */
+    m.onclick=()=>{
+      if(x.q<=1){
+        e.classList.add("removing");
+        setTimeout(()=>{cart=cart.filter(y=>y!=x);rc()},320);
+      }else{x.q--;rc()}
+    };
+    p.onclick=()=>{x.q++;rc()};
+    w.appendChild(e);
+  });
+}
+
+let lf=null;
+function op(o){
+  const w=$("dr").classList.contains("on");
+  if(o&&!w)lf=document.activeElement;
+  $("dr").classList.toggle("on",o);$("ov").classList.toggle("on",o);
+  if(o)renderWishBox();
+  if(o&&!w)setTimeout(()=>$("dr").focus(),60);
+  if(!o&&w&&lf)lf.focus();
+}
+$("cb").onclick=()=>op(true);$("ov").onclick=()=>op(false);
+
+addEventListener("keydown",e=>{
+  if(e.key==="Escape")op(false);
+  else if((e.key==="ArrowRight"||e.key==="ArrowLeft")&&!/INPUT|BUTTON|SELECT/.test(e.target.tagName)&&!$("dr").classList.contains("on")){
+    const list=filteredIndices();
+    if(!list.length)return;
+    const pos=Math.max(0,list.indexOf(cur));
+    const nextPos=(pos+(e.key==="ArrowRight"?1:list.length-1))%list.length;
+    pick(list[nextPos]);
+  }
+});
+
+$("send").onclick=()=>{
+  const m=$("msg");
+  if(!cart.length){m.textContent=T[lang].empty;return}
+  if(!$("fn").value.trim()||!$("fp").value.trim()||!$("ad").value.trim()){m.textContent=T[lang].nm+" / "+T[lang].ph+" / "+T[lang].adr;return}
+  cart=[];rc();
+  m.textContent=T[lang].thx+" · "+T[lang].pays[pyi];
+  $("fn").value=$("fp").value=$("ad").value="";
+};
+
+document.querySelectorAll(".faq-q").forEach(btn=>{
+  btn.onclick=()=>{
+    const item=btn.closest(".faq-item");
+    const isOpen=item.classList.toggle("open");
+    btn.setAttribute("aria-expanded",isOpen);
+  };
+});
+
+if(!matchMedia("(prefers-reduced-motion:reduce)").matches){
+  document.querySelectorAll(".mag-btn").forEach(btn=>{
+    btn.addEventListener("pointermove",e=>{
+      const r=btn.getBoundingClientRect();
+      const dx=(e.clientX-(r.left+r.width/2))*.28;
+      const dy=(e.clientY-(r.top+r.height/2))*.28;
+      btn.style.transform="translate3d("+dx.toFixed(1)+"px,"+dy.toFixed(1)+"px,0) scale(1.02)";
+    });
+    btn.addEventListener("pointerleave",()=>{btn.style.transform=""});
+  });
+}
+
+document.querySelectorAll(".tilt-card").forEach(card=>{
+  card.addEventListener("pointermove",e=>{
+    const r=card.getBoundingClientRect();
+    const px=(e.clientX-r.left)/r.width;
+    const py=(e.clientY-r.top)/r.height;
+    card.style.setProperty("--mx",(px*100).toFixed(1)+"%");
+    card.style.setProperty("--my",(py*100).toFixed(1)+"%");
+    const rx=(.5-py)*13;
+    const ry=(px-.5)*14;
+    card.style.transform="perspective(900px) rotateX("+rx.toFixed(2)+"deg) rotateY("+ry.toFixed(2)+"deg) translateY(-6px)";
+  });
+  card.addEventListener("pointerleave",()=>{card.style.transform=""});
+});
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.14});
+document.querySelectorAll(".rv").forEach(e=>io.observe(e));
+
+/* ==================== 3D FLACON + 1.1 ORBITAL XUSHBO'Y TUMAN ==================== */
+const cv=$("c"),R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});
+R.setPixelRatio(Math.min(devicePixelRatio,2));
+R.outputEncoding=THREE.sRGBEncoding;
+R.toneMapping=THREE.ACESFilmicToneMapping;
+R.toneMappingExposure=1.18;
+
+const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(35,1,.1,60);cam.position.set(0,.3,9.5);
+const env=new THREE.Scene();
+env.add(new THREE.Mesh(new THREE.BoxGeometry(30,30,30),new THREE.MeshBasicMaterial({color:0x261a2c,side:THREE.BackSide})));
+[[0,12,0,14,.3,6,7],[-12,2,4,.3,10,8,3.6],[12,3,-2,.3,8,6,4.6],[0,2,-12,16,6,.3,2.8],[-6,1,9,.4,9,.4,6.5],[7,1,8,.4,9,.4,5.5]].forEach(a=>{
+  const m=new THREE.Mesh(new THREE.BoxGeometry(a[3],a[4],a[5]),new THREE.MeshBasicMaterial({color:new THREE.Color().setScalar(a[6])}));
+  m.position.set(a[0],a[1],a[2]);env.add(m);
+});
+const pm=new THREE.PMREMGenerator(R);sc.environment=pm.fromScene(env,.03).texture;
+
+const kl=new THREE.DirectionalLight(0xfff1d6,1.3);kl.position.set(3,4,5);sc.add(kl);
+const rl=new THREE.PointLight(0xffffff,2.3,25);rl.position.set(-4,2,-4);sc.add(rl);
+const sweepLight=new THREE.SpotLight(0xffe7a8,2.6,24,Math.PI/7,.6,1.2);
+sweepLight.position.set(-6,5,5);sc.add(sweepLight);
+
+const g=new THREE.Group();sc.add(g);
+function rr(w,h,r){const s=new THREE.Shape(),x=-w/2,y=-h/2;s.moveTo(x+r,y);s.lineTo(x+w-r,y);s.quadraticCurveTo(x+w,y,x+w,y+r);s.lineTo(x+w,y+h-r);s.quadraticCurveTo(x+w,y+h,x+w-r,y+h);s.lineTo(x+r,y+h);s.quadraticCurveTo(x,y+h,x,y+h-r);s.lineTo(x,y+r);s.quadraticCurveTo(x,y,x+r,y);return s}
+function ex(w,h,r,d,b){const e=new THREE.ExtrudeGeometry(rr(w,h,r),{depth:d,bevelEnabled:true,bevelThickness:b,bevelSize:b,bevelSegments:10,curveSegments:24});e.center();return e}
+
+const body=new THREE.Mesh(ex(2.1,2.7,.35,.8,.14),new THREE.MeshPhysicalMaterial({color:0xffffff,transmission:1,thickness:1.4,roughness:.02,ior:1.5,clearcoat:1,clearcoatRoughness:0,envMapIntensity:1.5,attenuationColor:new THREE.Color(0xddeeff),attenuationDistance:6}));g.add(body);
+
+const liqGroup=new THREE.Group();liqGroup.position.y=-.35;g.add(liqGroup);
+const lm=new THREE.MeshPhysicalMaterial({color:S[0].c,transmission:.85,thickness:2,roughness:.04,ior:1.36,envMapIntensity:1.4,attenuationColor:new THREE.Color(S[0].c),attenuationDistance:1.2,specularIntensity:1});
+const liq=new THREE.Mesh(ex(1.8,1.85,.25,.55,.1),lm);liqGroup.add(liq);
+
+const gold=new THREE.MeshStandardMaterial({color:0xd9a441,metalness:1,roughness:.15,envMapIntensity:1.7});
+const cg=new THREE.Group();g.add(cg);
+const neck=new THREE.Mesh(new THREE.CylinderGeometry(.42,.48,.4,48),gold);neck.position.y=1.5;g.add(neck);
+const nozzle=new THREE.Mesh(new THREE.CylinderGeometry(.11,.14,.28,24),gold);nozzle.position.y=1.78;g.add(nozzle);
+const cap=new THREE.Mesh(new THREE.CylinderGeometry(.55,.55,1.15,64),gold);cap.position.y=2.25;cg.add(cap);
+const ring=new THREE.Mesh(new THREE.TorusGeometry(.56,.04,16,64),gold);ring.rotation.x=Math.PI/2;ring.position.y=1.7;cg.add(ring);
+
+const lc=document.createElement("canvas");lc.width=512;lc.height=256;const lt=new THREE.CanvasTexture(lc);lt.encoding=THREE.sRGBEncoding;
+const lab=new THREE.Mesh(new THREE.PlaneGeometry(1.5,.75),new THREE.MeshStandardMaterial({map:lt,transparent:true,roughness:.52,envMapIntensity:.75}));lab.position.set(0,-.3,.56);g.add(lab);
+
+function label(){
+  const x=lc.getContext("2d");x.clearRect(0,0,512,256);
+  x.fillStyle="#f7ede0";x.fillRect(0,0,512,256);
+  x.strokeStyle="#9a6b1a";x.lineWidth=4;x.strokeRect(8,8,496,240);
+  x.fillStyle="#211119";x.textAlign="center";
+  x.font="italic 600 60px 'Bodoni Moda',Georgia,serif";x.fillText("Atlas",256,104);
+  x.font="500 36px 'Bodoni Moda',Georgia,serif";x.fillText(S[cur].n,256,164);
+  const gLbl=S[cur].g==="men"?"FOR MEN":"FOR WOMEN";
+  x.font="400 18px Jost,sans-serif";x.fillText(gLbl+" · "+S[cur].lon+" · "+Z[zi][0]+" ML",256,214);
+  lt.needsUpdate=true;
+}
+
+const fl=document.createElement("canvas");fl.width=fl.height=128;{const x=fl.getContext("2d"),gr=x.createRadialGradient(64,64,0,64,64,64);gr.addColorStop(0,"rgba(0,0,0,.58)");gr.addColorStop(1,"rgba(0,0,0,0)");x.fillStyle=gr;x.fillRect(0,0,128,128)}
+const sh=new THREE.Mesh(new THREE.PlaneGeometry(4.5,4.5),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(fl),transparent:true,depthWrite:false}));sh.rotation.x=-Math.PI/2;sh.position.y=-1.62;g.add(sh);
+
+const burstGeo=new THREE.RingGeometry(1.35,1.58,64);
+const burstMat=new THREE.MeshBasicMaterial({color:S[0].c,side:THREE.DoubleSide,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false});
+const burstMesh=new THREE.Mesh(burstGeo,burstMat);
+g.add(burstMesh);
+
+const haloMat=new THREE.MeshBasicMaterial({color:S[0].c,side:THREE.DoubleSide,transparent:true,opacity:.26,blending:THREE.AdditiveBlending,depthWrite:false});
+const haloMesh=new THREE.Mesh(new THREE.RingGeometry(1.85,2.25,72),haloMat);
+haloMesh.position.z=-.45;
+g.add(haloMesh);
+
+const DROP_N=36;
+const dropData=Array.from({length:DROP_N},()=>({
+  ang:(Math.random()-.5)*Math.PI*1.1,
+  y:.9-Math.random()*1.9,
+  spd:.0025+Math.random()*.004,
+  r:.022+Math.random()*.028
+}));
+const dropPos=new Float32Array(DROP_N*3);
+const dropGeo=new THREE.BufferGeometry();dropGeo.setAttribute("position",new THREE.BufferAttribute(dropPos,3));
+const dropTexCanvas=document.createElement("canvas");dropTexCanvas.width=dropTexCanvas.height=32;
+{const x=dropTexCanvas.getContext("2d"),gr=x.createRadialGradient(11,11,1,16,16,15);gr.addColorStop(0,"rgba(255,255,255,.95)");gr.addColorStop(.55,"rgba(220,242,255,.45)");gr.addColorStop(1,"rgba(255,255,255,0)");x.fillStyle=gr;x.fillRect(0,0,32,32)}
+const dropMat=new THREE.PointsMaterial({size:.15,map:new THREE.CanvasTexture(dropTexCanvas),transparent:true,depthWrite:false,opacity:.72});
+const dropPoints=new THREE.Points(dropGeo,dropMat);
+g.add(dropPoints);
+
+const C=THREE,cy=(a,b,h,n=64)=>new C.CylinderGeometry(a,b,h,n),hx=(a,b,h)=>{const q=cy(a,b,h,6);q.rotateY(Math.PI/6);return q},lp=p=>new C.LatheGeometry(p.map(v=>new C.Vector2(v[0],v[1])),64);
+const SH=[
+  {b:()=>ex(2.1,2.7,.35,.8,.14),l:()=>ex(1.8,1.85,.25,.55,.1),T:1.49,z:.56,w:1,y:-.35,c:0},
+  {b:()=>cy(1.05,1.05,2.8),l:()=>cy(.92,.92,1.8),T:1.4,z:1.06,w:1,y:-.35,c:1},
+  {b:()=>new C.SphereGeometry(1.4,64,48),l:()=>new C.SphereGeometry(1.22,48,32),T:1.4,z:1.41,w:.8,y:0,c:2},
+  {b:()=>ex(1.35,3.4,.25,.55,.1),l:()=>ex(1.1,2.2,.2,.3,.08),T:1.8,z:.39,w:.75,y:-.5,c:3},
+  {b:()=>hx(1.2,1.2,2.6),l:()=>hx(1.02,1.02,1.7),T:1.3,z:1.05,w:1,y:-.3,c:4},
+  {b:()=>ex(2.8,2,.4,.6,.12),l:()=>ex(2.4,1.3,.3,.35,.08),T:1.12,z:.42,w:1.2,y:-.25,c:5},
+  {b:()=>lp([[0,-1.4],[1,-1.4],[1.3,-.6],[1.2,.3],[.8,1],[.55,1.4],[0,1.4]]),l:()=>lp([[0,-1.3],[.95,-1.3],[1.2,-.6],[1.1,.2],[0,.2]]),T:1.4,z:1.22,w:.9,y:0,c:6},
+  {b:()=>ex(2.3,2.6,.9,.9,.2),l:()=>ex(2,1.8,.8,.6,.12),T:1.5,z:.65,w:1,y:-.3,c:7},
+  {b:()=>cy(.8,.8,3.2),l:()=>cy(.68,.68,2.2),T:1.6,z:.81,w:.7,y:-.4,c:8}
+];
+const CP=[[()=>cy(.55,.55,1.15),1.15],[()=>cy(.7,.7,.6),.6],[()=>new C.SphereGeometry(.55,48,32),1.1],[()=>cy(.4,.4,1.3),1.3],[()=>cy(.2,.6,1.2,48),1.2],[()=>new C.BoxGeometry(1.1,.7,.8),.7],[()=>cy(.5,.3,1),1],[()=>new C.OctahedronGeometry(.7),1.4],[()=>cy(.5,.5,.5),.5]];
+let t0=1e9,curTopY=1.65,curRadZ=.62;
+function shape(i){
+  const s=SH[i],c=CP[s.c];
+  body.geometry.dispose();liq.geometry.dispose();cap.geometry.dispose();
+  body.geometry=s.b();liq.geometry=s.l();cap.geometry=c[0]();
+  liqGroup.position.y=s.y;neck.position.y=s.T;nozzle.position.y=s.T+.22;
+  curTopY=s.T+.34;curRadZ=s.z+.03;
+  cap.position.y=s.T+.18+c[1]/2;ring.position.y=s.T+.2;
+  sh.position.y=-s.T-.13;tube.scale.y=2*s.T-.3;tube.position.y=.15;glow.position.y=-s.T-.15;
+  lab.position.set(0,s.y+.05,s.z+.01);lab.scale.setScalar(s.w);
+}
+
+const sp=document.createElement("canvas");sp.width=sp.height=64;{const x=sp.getContext("2d"),gr=x.createRadialGradient(32,32,0,32,32,32);gr.addColorStop(0,"rgba(255,255,255,1)");gr.addColorStop(1,"rgba(255,255,255,0)");x.fillStyle=gr;x.fillRect(0,0,64,64)}
+const spTex=new THREE.CanvasTexture(sp);
+
+const N=480,pp=new Float32Array(N*3),vy=new Float32Array(N);
+function rs(i,f){pp[i*3]=(Math.random()-.5)*.45;pp[i*3+1]=f?2.9+Math.random()*3:2.9;pp[i*3+2]=(Math.random()-.5)*.45;vy[i]=.004+Math.random()*.012}
+for(let i=0;i<N;i++)rs(i,true);
+const pg=new THREE.BufferGeometry();pg.setAttribute("position",new THREE.BufferAttribute(pp,3));
+const pmat=new THREE.PointsMaterial({size:.72,map:spTex,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,color:S[0].c,opacity:0});
+g.add(new THREE.Points(pg,pmat));
+
+/* 1.1 Orbital Xushbo'y Tuman (Scent Mist Orbit) */
+const ORB_N=90;
+const orbMeta=Array.from({length:ORB_N},(_,i)=>({
+  ang:(i/ORB_N)*Math.PI*2,
+  rad:1.65+Math.random()*.65,
+  y:(Math.random()-.5)*2.4,
+  spd:.007+Math.random()*.008,
+  bob:Math.random()*Math.PI*2
+}));
+const orbPos=new Float32Array(ORB_N*3);
+const orbGeo=new THREE.BufferGeometry();orbGeo.setAttribute("position",new THREE.BufferAttribute(orbPos,3));
+const orbMat=new THREE.PointsMaterial({size:.32,map:spTex,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,color:S[0].c,opacity:.48});
+g.add(new THREE.Points(orbGeo,orbMat));
+
+const MIST_N=220;
+const mPos=new Float32Array(MIST_N*3);
+const mVel=new Float32Array(MIST_N*3);
+let mistLife=0,nozzlePress=0;
+for(let i=0;i<MIST_N;i++){mPos[i*3]=0;mPos[i*3+1]=-20;mPos[i*3+2]=0}
+const mGeo=new THREE.BufferGeometry();mGeo.setAttribute("position",new THREE.BufferAttribute(mPos,3));
+const mMat=new THREE.PointsMaterial({size:.36,map:spTex,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,color:0xfff2cc,opacity:0});
+g.add(new THREE.Points(mGeo,mMat));
+
+function triggerMistSpray(){
+  mistLife=1;
+  nozzlePress=1;
+  for(let i=0;i<MIST_N;i++){
+    mPos[i*3]=(Math.random()-.5)*.08;
+    mPos[i*3+1]=curTopY;
+    mPos[i*3+2]=(Math.random()-.5)*.08;
+    const spread=.055+Math.random()*.085;
+    const ang=Math.random()*Math.PI*2;
+    const up=.07+Math.random()*.11;
+    mVel[i*3]=Math.cos(ang)*spread;
+    mVel[i*3+1]=up;
+    mVel[i*3+2]=Math.sin(ang)*spread;
+  }
+  mGeo.attributes.position.needsUpdate=true;
+}
+cv.addEventListener("dblclick",triggerMistSpray);
+
+const gm=new THREE.MeshBasicMaterial({map:spTex,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,color:S[0].c,opacity:.52}),glow=new THREE.Mesh(new THREE.PlaneGeometry(7,7),gm);glow.rotation.x=-Math.PI/2;glow.position.y=-1.64;g.add(glow);
+const tube=new THREE.Mesh(new THREE.CylinderGeometry(.035,.035,1,12),new THREE.MeshStandardMaterial({color:0xd8d8d8,metalness:1,roughness:.2}));tube.position.x=.12;g.add(tube);
+
+/* ==================== REALISTIK HIDGA MOS 2D FON & 1.4 YAKUNIY NAFAS ==================== */
+const fx=$("fx"),X=fx.getContext("2d"),rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
+let fw=0,fh=0,fa=0,fp=[],endCalm=0;
+const dkm=()=>{const d=document.documentElement.dataset.theme;return d?d==="dark":matchMedia("(prefers-color-scheme:dark)").matches};
+
+function initFxParticles(){
+  const count=fw<760?38:76;
+  fp=Array.from({length:count},(_,idx)=>({
+    x:Math.random()*fw,
+    y:Math.random()*fh,
+    r:.25+Math.random()*.75,
+    v:.4+Math.random()*1.1,
+    h:Math.random()*Math.PI*2,
+    sp:(Math.random()-.5)*.025,
+    alt:idx%2===0
+  }));
+}
+function fs(){fw=fx.width=innerWidth;fh=fx.height=innerHeight;initFxParticles()}
+addEventListener("resize",fs);fs();
+
+function drawAura(ty,dark){
+  const a=fa*.16*(1-endCalm*.45);
+  if(ty==="smoke"||ty==="forest"){
+    const g1=X.createRadialGradient(fw*.72,fh*.42,20,fw*.72,fh*.42,Math.max(fw,fh)*.55);
+    g1.addColorStop(0,dark?(ty==="forest"?"rgba(68,175,125,"+a+")":"rgba(92,165,212,"+a+")"):(ty==="forest"?"rgba(36,105,74,"+a+")":"rgba(42,88,118,"+a+")"));
+    g1.addColorStop(1,"transparent");
+    X.fillStyle=g1;X.fillRect(0,0,fw,fh);
+  }else if(ty==="petal"||ty==="ruby"||ty==="bokeh"){
+    const g1=X.createRadialGradient(fw*.68,fh*.45,20,fw*.68,fh*.45,Math.max(fw,fh)*.52);
+    g1.addColorStop(0,dark?"rgba(225,115,175,"+a+")":"rgba(178,52,102,"+a+")");
+    g1.addColorStop(1,"transparent");
+    X.fillStyle=g1;X.fillRect(0,0,fw,fh);
+  }else if(ty==="sea"){
+    const g1=X.createRadialGradient(fw*.5,fh*.78,30,fw*.5,fh*.78,Math.max(fw,fh)*.6);
+    g1.addColorStop(0,dark?"rgba(62,186,245,"+a+")":"rgba(32,124,182,"+a+")");
+    g1.addColorStop(1,"transparent");
+    X.fillStyle=g1;X.fillRect(0,0,fw,fh);
+  }else{
+    const g1=X.createRadialGradient(fw*.65,fh*.45,20,fw*.65,fh*.45,Math.max(fw,fh)*.5);
+    g1.addColorStop(0,dark?"rgba(240,185,82,"+a+")":"rgba(185,125,32,"+a+")");
+    g1.addColorStop(1,"transparent");
+    X.fillStyle=g1;X.fillRect(0,0,fw,fh);
+  }
+}
+
+function fxd(t){
+  if(rm)return;
+  X.clearRect(0,0,fw,fh);
+  fa=Math.min(1,fa+.018);
+  const ty=S[cur].fx,dark=dkm();
+  const spdScale=1-endCalm*.65;
+  const calmAlpha=1-endCalm*.4;
+  drawAura(ty,dark);
+
+  if(ty==="sea"){
+    for(let k=0;k<4;k++){
+      X.beginPath();
+      const baseY=fh*(.74+k*.065);
+      X.moveTo(0,fh);
+      for(let x=0;x<=fw;x+=10){
+        const w1=Math.sin(x/(125+k*35)+t/(880+k*220))*(16+k*5);
+        const w2=Math.cos(x/(52-k*6)-t/(540+k*110))*(5+k*2);
+        X.lineTo(x,baseY+w1+w2);
+      }
+      X.lineTo(fw,fh);X.closePath();
+      const grad=X.createLinearGradient(0,baseY-25,0,fh);
+      grad.addColorStop(0,dark?"rgba(105,198,248,"+(.12+k*.04)*fa*calmAlpha+")":"rgba(28,118,176,"+(.11+k*.035)*fa*calmAlpha+")");
+      grad.addColorStop(1,"transparent");
+      X.fillStyle=grad;X.fill();
+    }
+    for(const p of fp){
+      p.y-=(.55+p.v*1.1)*spdScale;p.x+=Math.sin(t/850+p.h)*.55*spdScale;
+      if(p.y<-40){p.y=fh+40;p.x=Math.random()*fw}
+      const rad=2.5+p.r*8.5;
+      X.save();
+      X.globalAlpha=(.25+p.r*.35)*fa*calmAlpha;
+      X.strokeStyle=dark?"#8ad4ff":"#1e78b4";
+      X.lineWidth=1.3;
+      X.beginPath();X.arc(p.x,p.y,rad,0,Math.PI*2);X.stroke();
+      X.restore();
+    }
+  }else if(ty==="silk"){
+    for(let k=0;k<5;k++){
+      X.beginPath();
+      for(let x=0;x<=fw;x+=12){
+        const y=fh*(.24+k*.12)+Math.sin(x/(210+k*25)+t/1450+k*1.1)*58+Math.cos(x/85-t/1050+k)*18;
+        x?X.lineTo(x,y):X.moveTo(x,y);
+      }
+      X.strokeStyle=dark?"rgba(155,232,198,"+(.16+k*.02)*fa*calmAlpha+")":"rgba(36,132,98,"+(.15+k*.02)*fa*calmAlpha+")";
+      X.lineWidth=2.2;X.stroke();
+    }
+    for(const p of fp){
+      p.x+=(.45+p.v*.8)*spdScale;p.y+=Math.sin(t/900+p.h)*.65*spdScale;
+      if(p.x>fw+50){p.x=-50;p.y=Math.random()*fh}
+      X.save();X.translate(p.x,p.y);X.rotate(Math.sin(t/700+p.h)*.5+.4);
+      X.globalAlpha=.45*fa*calmAlpha;X.fillStyle=dark?"#9be8c6":"#2b8a68";
+      X.beginPath();X.ellipse(0,0,7+p.r*5,2.6+p.r*2,0,0,Math.PI*2);X.fill();X.restore();
+    }
+  }else if(ty==="smoke"){
+    for(const p of fp){
+      p.y-=(.35+p.v*.75)*spdScale;p.x+=(Math.sin(t/1100+p.h)*1.1+Math.cos(t/650+p.h*1.4)*.45)*spdScale;
+      if(p.y<-150){p.y=fh+150;p.x=Math.random()*fw}
+      const rd=68+p.r*125;
+      const gd=X.createRadialGradient(p.x,p.y,rd*.08,p.x,p.y,rd);
+      gd.addColorStop(0,dark?"rgba(155,205,238,"+(.085*fa*calmAlpha)+")":"rgba(42,88,118,"+(.095*fa*calmAlpha)+")");
+      gd.addColorStop(1,"transparent");
+      X.fillStyle=gd;X.beginPath();X.arc(p.x,p.y,rd,0,Math.PI*2);X.fill();
+    }
+  }else if(ty==="forest"){
+    for(const p of fp){
+      p.y-=(.28+p.v*.65)*spdScale;p.x+=Math.sin(t/950+p.h)*.85*spdScale;
+      if(p.y<-60){p.y=fh+60;p.x=Math.random()*fw}
+      if(p.alt){
+        X.save();X.translate(p.x,p.y);X.rotate(t/800+p.h);
+        X.globalAlpha=.38*fa*calmAlpha;X.fillStyle=dark?"#7cd4a4":"#246944";
+        X.beginPath();X.ellipse(0,0,6.5+p.r*4,2.8+p.r*1.8,0,0,Math.PI*2);X.fill();X.restore();
+      }else{
+        const glowR=14+p.r*22;
+        const g=X.createRadialGradient(p.x,p.y,0,p.x,p.y,glowR);
+        g.addColorStop(0,dark?"rgba(155,235,190,"+(.35*fa*calmAlpha)+")":"rgba(42,115,74,"+(.28*fa*calmAlpha)+")");
+        g.addColorStop(1,"transparent");X.fillStyle=g;X.beginPath();X.arc(p.x,p.y,glowR,0,Math.PI*2);X.fill();
+      }
+    }
+  }else if(ty==="petal"){
+    for(const p of fp){
+      p.y+=(.55+p.v*1.05)*spdScale;p.x+=Math.sin(t/780+p.h)*1.15*spdScale;p.h+=.012*spdScale;
+      if(p.y>fh+50){p.y=-50;p.x=Math.random()*fw}
+      const tilt=Math.cos(t/500+p.h);
+      X.save();X.translate(p.x,p.y);X.rotate(p.h);X.scale(1,Math.max(.28,Math.abs(tilt)));
+      X.globalAlpha=(.45+p.r*.3)*fa*calmAlpha;
+      const grad=X.createRadialGradient(-2,-2,1,0,0,10+p.r*6);
+      grad.addColorStop(0,dark?"#ffd0e2":"#ff8fb5");grad.addColorStop(1,dark?"#c94b76":"#9e244d");
+      X.fillStyle=grad;X.beginPath();
+      X.moveTo(0,-8-p.r*5);X.bezierCurveTo(9+p.r*5,-5,8+p.r*4,6+p.r*4,0,9+p.r*5);
+      X.bezierCurveTo(-8-p.r*4,6+p.r*4,-9-p.r*5,-5,0,-8-p.r*5);X.fill();X.restore();
+    }
+  }else if(ty==="ruby"){
+    for(const p of fp){
+      p.y-=(.4+p.v*.9)*spdScale;p.x+=Math.cos(t/820+p.h)*.75*spdScale;
+      if(p.y<-40){p.y=fh+40;p.x=Math.random()*fw}
+      const rad=3+p.r*6.5;
+      const g=X.createRadialGradient(p.x,p.y,0,p.x,p.y,rad*2.4);
+      g.addColorStop(0,dark?"rgba(255,120,155,"+(.55*fa*calmAlpha)+")":"rgba(175,32,68,"+(.45*fa*calmAlpha)+")");
+      g.addColorStop(1,"transparent");X.fillStyle=g;X.beginPath();X.arc(p.x,p.y,rad*2.4,0,Math.PI*2);X.fill();
+    }
+  }else if(ty==="ember"){
+    for(const p of fp){
+      p.y-=(.75+p.v*1.55)*spdScale;p.x+=Math.sin(t/520+p.h)*1.3*spdScale;
+      if(p.y<-30){p.y=fh+30;p.x=Math.random()*fw}
+      const tw=.45+.55*Math.abs(Math.sin(t/360+p.h));
+      const rad=1.8+p.r*3.4;
+      const g=X.createRadialGradient(p.x,p.y,0,p.x,p.y,rad*3.5);
+      g.addColorStop(0,"rgba(255,215,120,"+(.85*tw*fa*calmAlpha)+")");
+      g.addColorStop(1,"transparent");X.fillStyle=g;X.beginPath();X.arc(p.x,p.y,rad*3.5,0,Math.PI*2);X.fill();
+    }
+  }else if(ty==="bokeh"){
+    for(const p of fp){
+      p.y-=(.22+p.v*.45)*spdScale;p.x+=Math.sin(t/1200+p.h)*.5*spdScale;
+      if(p.y<-110){p.y=fh+110;p.x=Math.random()*fw}
+      const rad=22+p.r*56;
+      const g=X.createRadialGradient(p.x,p.y,rad*.1,p.x,p.y,rad);
+      g.addColorStop(0,dark?"rgba(214,158,252,"+(.14*fa*calmAlpha)+")":"rgba(138,72,188,"+(.11*fa*calmAlpha)+")");
+      g.addColorStop(1,"transparent");X.fillStyle=g;X.beginPath();X.arc(p.x,p.y,rad,0,Math.PI*2);X.fill();
+    }
+  }else if(ty==="star"){
+    for(const p of fp){
+      p.x+=Math.cos(t/1600+p.h)*.22*spdScale;p.y+=Math.sin(t/1600+p.h)*.22*spdScale;
+      const tw=.25+.75*Math.abs(Math.sin(t/650+p.h));
+      X.save();X.globalAlpha=tw*.85*fa*calmAlpha;X.fillStyle=dark?"#dce4ff":"#2a398a";
+      X.beginPath();X.arc(p.x,p.y,1.1+p.r*2.4,0,Math.PI*2);X.fill();X.restore();
+    }
+  }else if(ty==="snow"){
+    for(const p of fp){
+      p.y+=(.48+p.v*.85)*spdScale;p.x+=Math.sin(t/880+p.h)*.85*spdScale;
+      if(p.y>fh+30){p.y=-30;p.x=Math.random()*fw}
+      const rad=2+p.r*4.2;
+      const g=X.createRadialGradient(p.x,p.y,0,p.x,p.y,rad*2.2);
+      g.addColorStop(0,dark?"rgba(255,235,190,"+(.7*fa*calmAlpha)+")":"rgba(184,142,62,"+(.5*fa*calmAlpha)+")");
+      g.addColorStop(1,"transparent");X.fillStyle=g;X.beginPath();X.arc(p.x,p.y,rad*2.2,0,Math.PI*2);X.fill();
+    }
+  }else{
+    for(const p of fp){
+      p.y-=(.35+p.v*.85)*spdScale;p.x+=Math.sin(t/900+p.h)*.7*spdScale;
+      if(p.y<-30){p.y=fh+30;p.x=Math.random()*fw}
+      const tw=.35+.65*Math.abs(Math.sin(t/520+p.h));
+      const rad=1.8+p.r*4.5;
+      const g=X.createRadialGradient(p.x,p.y,0,p.x,p.y,rad*2.8);
+      g.addColorStop(0,dark?"rgba(255,212,112,"+(.72*tw*fa*calmAlpha)+")":"rgba(182,126,34,"+(.55*tw*fa*calmAlpha)+")");
+      g.addColorStop(1,"transparent");X.fillStyle=g;X.beginPath();X.arc(p.x,p.y,rad*2.8,0,Math.PI*2);X.fill();
+    }
+  }
+  X.globalAlpha=1;
+}
+
+const tcv=$("trailCanvas"),TX=tcv.getContext("2d");
+let tw=0,th=0,trailPts=[];
+function tsize(){tw=tcv.width=innerWidth;th=tcv.height=innerHeight}
+addEventListener("resize",tsize);tsize();
+
+addEventListener("pointermove",e=>{
+  if(rm)return;
+  const col="#"+S[cur].c.toString(16).padStart(6,"0");
+  trailPts.push({x:e.clientX,y:e.clientY,r:2.2+Math.random()*4.2,vx:(Math.random()-.5)*1.1,vy:-.35-Math.random()*.9,a:1,col});
+  if(trailPts.length>90)trailPts.shift();
+});
+
+function drawTrail(){
+  if(rm)return;
+  TX.clearRect(0,0,tw,th);
+  for(let i=trailPts.length-1;i>=0;i--){
+    const p=trailPts[i];
+    p.x+=p.vx;p.y+=p.vy;p.a-=.024;
+    if(p.a<=0){trailPts.splice(i,1);continue}
+    TX.save();TX.globalAlpha=p.a*.62;
+    const gr=TX.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*2.4);
+    gr.addColorStop(0,p.col);gr.addColorStop(1,"transparent");
+    TX.fillStyle=gr;TX.beginPath();TX.arc(p.x,p.y,p.r*2.4,0,Math.PI*2);TX.fill();TX.restore();
+  }
+}
+
+const tgt=new THREE.Color(S[0].c);
+let spin=.006,drag=false,lx=0,dr=0,rot=0,spp=0,prevSpp=0,sloshAngle=0,sloshVel=0,burstWave=0,autoSprayDone=false;
+const ambEl=$("ambLayer");
+
+cv.onpointerdown=e=>{drag=true;lx=e.clientX};
+addEventListener("pointerup",()=>drag=false);
+addEventListener("pointermove",e=>{
+  if(drag){
+    const dx=(e.clientX-lx)*.01;
+    dr+=dx;sloshVel+=dx*2.4;lx=e.clientX;
+  }
+});
+
+function size(){const w=cv.clientWidth,h=cv.clientHeight;R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
+addEventListener("resize",size);size();
+
+const ss=(a,b,x)=>{x=Math.min(1,Math.max(0,(x-a)/(b-a)));return x*x*(3-2*x)};
+const st=$("stage"),hero=$("hero"),capE=$("cap"),py=$("pyr");
+
+function loop(t){
+  requestAnimationFrame(loop);
+  const r=st.getBoundingClientRect(),p=Math.min(1,Math.max(0,-r.top/(r.height-innerHeight)));
+  spp+=(p-spp)*.08;
+  const scrollDelta=(spp-prevSpp)*18;
+  prevSpp=spp;
+
+  /* 1.4 Footer yaqinlashganda "Yakuniy Nafas" */
+  const maxSc=Math.max(1,document.documentElement.scrollHeight-innerHeight);
+  const pageProg=Math.min(1,Math.max(0,scrollY/maxSc));
+  const targetCalm=ss(.78,1,pageProg);
+  endCalm+=(targetCalm-endCalm)*.06;
+
+  if(!rm&&ambEl){
+    ambEl.style.transform="translate3d("+(-1.5+spp*3.5)+"%,"+(-1+spp*-6)+"%,0) scale("+(1+spp*.05-endCalm*.03)+")";
+    fx.style.transform="translate3d(0,"+(-spp*42)+"px,0)";
+  }
+
+  const openProg=ss(.35,.55,spp);
+  if(openProg>.45 && !autoSprayDone){autoSprayDone=true;triggerMistSpray()}
+  else if(openProg<.15){autoSprayDone=false}
+
+  const m=cv.clientWidth<820,k=1-Math.pow(1-Math.min(Math.max(t-t0,0)/2200,1),3);
+  const x=m?0:2.65*(1-ss(.15,.4,spp))-2.65*ss(.62,.8,spp);
+  const liftY=(m?1.25:-1)+(1-k)*4+Math.sin(t/900)*.06;
+  g.position.x=x;
+  g.position.y=liftY;
+  g.scale.setScalar((m?.68:1)*(1+ss(.3,.5,spp)*.15)*(.6+.4*k));
+
+  const distFactor=Math.max(.55,1-Math.max(0,liftY+1)*.09-openProg*.18);
+  sh.scale.setScalar(distFactor);
+  sh.material.opacity=.48*distFactor;
+  glow.scale.setScalar(.75+.35*distFactor);
+  gm.opacity=.32+.28*distFactor;
+
+  const spinRate=.006*(1-endCalm*.65);
+  spin+=(spinRate-spin)*.03;dr*=.96;rot+=spin;
+  g.rotation.y=rot+spp*Math.PI*2+dr;
+  g.rotation.x=Math.sin(t/2000)*.04;
+
+  sloshVel+=(-sloshAngle*.06)+(scrollDelta*.12)+Math.sin(t/450)*.0015;
+  sloshVel*=.91;
+  sloshAngle+=sloshVel;
+  liqGroup.rotation.z=Math.max(-.28,Math.min(.28,sloshAngle));
+  liqGroup.rotation.x=Math.max(-.18,Math.min(.18,sloshAngle*.55));
+
+  for(let i=0;i<DROP_N;i++){
+    const d=dropData[i];
+    d.y-=d.spd*(1-endCalm*.5);
+    if(d.y<-1.15){d.y=.95;d.ang=(Math.random()-.5)*Math.PI*1.1}
+    const wob=Math.sin(t/500+i)*.025;
+    dropPos[i*3]=Math.sin(d.ang+wob)*curRadZ;
+    dropPos[i*3+1]=d.y;
+    dropPos[i*3+2]=Math.cos(d.ang+wob)*curRadZ;
+  }
+  dropGeo.attributes.position.needsUpdate=true;
+
+  /* 1.1 Orbital Xushbo'y Tuman yangilanishi */
+  const orbSpdScale=1-endCalm*.6;
+  for(let i=0;i<ORB_N;i++){
+    const o=orbMeta[i];
+    o.ang+=o.spd*orbSpdScale;
+    const radNow=o.rad+Math.sin(t/750+o.bob)*.18;
+    orbPos[i*3]=Math.cos(o.ang)*radNow;
+    orbPos[i*3+1]=o.y+Math.sin(t/600+o.bob)*.22;
+    orbPos[i*3+2]=Math.sin(o.ang)*radNow;
+  }
+  orbGeo.attributes.position.needsUpdate=true;
+  orbMat.color.copy(lm.color);
+  orbMat.opacity=(.36+.14*Math.sin(t/800))*(1-endCalm*.55);
+
+  const breath=1+.11*Math.sin(t/950);
+  haloMesh.scale.setScalar(breath);
+  haloMat.color.copy(lm.color);
+  haloMat.opacity=(.18+.1*Math.sin(t/950))*(1-endCalm*.45);
+
+  nozzlePress+=(0-nozzlePress)*.18;
+  nozzle.position.y=curTopY-.12-nozzlePress*.09;
+  if(mistLife>0){
+    mistLife=Math.max(0,mistLife-.022);
+    mMat.opacity=mistLife*.85;
+    for(let i=0;i<MIST_N;i++){
+      mPos[i*3]+=mVel[i*3];mPos[i*3+1]+=mVel[i*3+1];mPos[i*3+2]+=mVel[i*3+2];
+      mVel[i*3]*=.96;mVel[i*3+1]-=.0018;mVel[i*3+2]*=.96;
+    }
+    mGeo.attributes.position.needsUpdate=true;
+  }
+
+  if(burstWave>0){
+    burstWave=Math.max(0,burstWave-.026);
+    const scWave=1+(1-burstWave)*2.4;
+    burstMesh.scale.setScalar(scWave);
+    burstMat.color.copy(lm.color);
+    burstMat.opacity=burstWave*.75;
+  }
+
+  const swAng=(t/1900)%(Math.PI*2);
+  sweepLight.position.x=Math.cos(swAng)*6.5;
+  sweepLight.position.z=Math.sin(swAng)*6.5;
+  sweepLight.position.y=3.5+Math.sin(swAng*2)*1.5;
+
+  cg.position.y=openProg*1.55;
+  cg.rotation.y=openProg*2;
+
+  lm.color.lerp(tgt,.06);
+  pmat.color.copy(lm.color);lm.attenuationColor.copy(lm.color);gm.color.copy(lm.color);rl.color.copy(lm.color);
+
+  fxd(t);
+  drawTrail();
+
+  $("sp").style.transform="scaleX("+pageProg+")";
+  const ma=ss(.4,.6,spp)*(1-ss(.9,1,spp)*.5)*(1-endCalm*.5);pmat.opacity=ma*.55;
+  for(let i=0;i<N;i++){pp[i*3+1]+=vy[i]*(.5+ma*2)*orbSpdScale;pp[i*3]+=Math.sin(t/700+i)*.003;if(pp[i*3+1]>6)rs(i,false)}
+  pg.attributes.position.needsUpdate=true;
+
+  const h=1-ss(.12,.3,spp);
+  hero.style.opacity=h;
+  hero.style.transform=(m?"":"translateY(-50%) ")+"translateX("+(-40*(1-h))+"px)";
+  hero.style.pointerEvents=h<.3?"none":"auto";
+
+  const c=ss(.38,.5,spp)*(1-ss(.58,.68,spp));
+  capE.style.opacity=c;capE.style.transform="translateY("+(20*(1-c))+"px)";
+
+  [...py.children].forEach((e,i)=>{
+    if(!e.classList.contains("pc"))return;
+    const v=ss(.68+i*.06,.76+i*.06,spp);
+    e.style.opacity=v;
+    e.style.transform="translateX("+(50*(1-v))+"px)";
+    e.classList.toggle("evo-on",v>.75);
+  });
+  R.render(sc,cam);
+}
+
+shape(0);
+document.fonts.ready.then(()=>{
+  label();
+  setTimeout(()=>{t0=performance.now();$("ld").classList.add("off")},650);
+});
+label();
+tx();
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
